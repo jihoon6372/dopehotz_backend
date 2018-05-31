@@ -52,10 +52,10 @@ class Track(models.Model):
         super(Track, self).save(*args, **kargs)
 
 
-class TrackCommentManager(models.Manager):
-    def all(self):
-        qs = super(TrackCommentManager, self).prefetch_related('children').filter(parent=None)
-        return qs
+# class TrackCommentManager(models.Manager):
+#     def all(self):
+#         qs = super(TrackCommentManager, self).prefetch_related('children__parent').select_related('user__profile', 'track__user__profile').filter(parent=None)
+#         return qs
 
 
 class TrackComment(models.Model):
