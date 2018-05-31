@@ -4,8 +4,8 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
 
-from .serializers import TrackSerializer
-from .models import Track
+from .serializers import TrackSerializer, CommentSerializer
+from .models import Track, TrackComment
 from home.permissions import IsOwnerOrReadOnly
 
 import requests
@@ -17,7 +17,7 @@ class TrackViewSet(viewsets.ModelViewSet):
     lookup_field = 'track_id'
     serializer_class = TrackSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
-    queryset = Track.objects.select_related('user__profile').filter(is_deleted=False)
+    queryset = Track.objects.prefetch_related('comment__user__profile', 'comment__children__user__profile').select_related('user__profile').filter(is_deleted=False)
 
     def create(self, request, *args, **kwargs):
         # 사우드클라우드 계정인지 확인
@@ -92,3 +92,9 @@ class TrackViewSet(viewsets.ModelViewSet):
         #     return TrackSerializer_v2
 
         return self.serializer_class
+
+
+class TrackCommentViewSet(viewsets.ModelViewSet):
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+    queryset = TrackComment.objects.all()
