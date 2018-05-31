@@ -84,3 +84,11 @@ class TrackViewSet(viewsets.ModelViewSet):
         instance.is_deleted = True
         instance.track_id = None
         instance.save()
+
+
+    def get_serializer_class(self):
+        # 버전 관리
+        # if self.request.version == 'v2':
+        #     return TrackSerializer_v2
+
+        return self.serializer_class
