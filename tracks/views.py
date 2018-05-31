@@ -4,9 +4,12 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
 
+from django.db.models import Prefetch
+
 from .serializers import TrackSerializer, CommentSerializer
 from .models import Track, TrackComment
 from home.permissions import IsOwnerOrReadOnly
+from home.exceptions import InvalidAPIQuery
 
 import requests
 
@@ -17,7 +20,7 @@ class TrackViewSet(viewsets.ModelViewSet):
     lookup_field = 'track_id'
     serializer_class = TrackSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
-    queryset = Track.objects.prefetch_related('comment__user__profile', 'comment__children__user__profile').select_related('user__profile').filter(is_deleted=False)
+    queryset = Track.objects.prefetch_related(Prefetch('comment', queryset=TrackComment.objects.filter(parent=None)), 'comment__user__profile', 'comment__children__user__profile').select_related('user__profile').filter(is_deleted=False)
 
     def create(self, request, *args, **kwargs):
         # 사우드클라우드 계정인지 확인
@@ -94,7 +97,12 @@ class TrackViewSet(viewsets.ModelViewSet):
         return self.serializer_class
 
 
+
+
 class TrackCommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
-    queryset = TrackComment.objects.all()
+    # queryset = TrackComment.objects.prefetch_related('children__user__profile').select_related('user').filter(parent=None)
+
+    def get_queryset(self, **kwargs):
+        return TrackComment.objects.prefetch_related('children__user__profile').select_related('track', 'user__profile').filter(track__track_id=self.kwargs['track'], parent=None)
