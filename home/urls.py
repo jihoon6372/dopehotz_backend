@@ -16,6 +16,7 @@ Including another URLconf
 from django.urls import path, include
 from django.conf import settings
 from rest_framework import routers
+from rest_framework_jwt.views import refresh_jwt_token
 
 from .views import api_view, UserViewSet, get_user
 
@@ -26,11 +27,8 @@ urlpatterns = [
     # path('', api_view),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('post/', include('post.urls', namespace='post')),
     path('track/', include('tracks.urls', namespace='track')),
-
-    path('test/', get_user),
-
+    path('token/refresh/', refresh_jwt_token)
 ]
 
 if settings.DEBUG:
