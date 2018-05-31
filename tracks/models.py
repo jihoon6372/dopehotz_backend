@@ -52,14 +52,23 @@ class Track(models.Model):
         super(Track, self).save(*args, **kargs)
 
 
+class TrackCommentManager(models.Manager):
+    def all(self):
+        qs = super(TrackCommentManager, self).prefetch_related('children').filter(parent=None)
+        return qs
+
+
 class TrackComment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="작성자", on_delete=models.CASCADE, related_name='track_comment')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="작성자", on_delete=models.CASCADE, related_name='comment')
     parent = models.ForeignKey("self", verbose_name="부모 댓글", on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     track = models.ForeignKey(Track, verbose_name="트랙", on_delete=models.CASCADE, related_name='comment')
     content = models.TextField(verbose_name='내용')
     is_deleted = models.BooleanField(default=False, db_index=True, verbose_name='삭제여부', help_text='댓글을 삭제하는 대신 이 부분을 체크하세요.')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    # objects = TrackCommentManager()
+
 
     class Meta:
         verbose_name_plural = '댓글'
