@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('post/', include('post.urls', namespace='post')),
+    path('track/', include('tracks.urls', namespace='track')),
 
     path('test/', get_user),
 
