@@ -1,7 +1,20 @@
 <html>
     <body>
-        {% for user in user_list %}
-        <div>{{user}}|{{user.user}}|{{user.user.profile.profile_picture}}</div>
-        {% endfor %}
+        <div>
+            <span>{{tracks}}</span>|
+            <span>
+            {% for comment in tracks.comment.all %}
+            <div style="margin-left: 15px;">
+                {{ comment.content }}
+                {% for reply in comment.children.all %}
+                <div style="margin-left: 15px;">
+                    {{reply}}
+                </div>
+                {% endfor %}
+                
+            </div>
+            {% endfor %}
+            </span>
+        </div>
     </body>
 </html>
