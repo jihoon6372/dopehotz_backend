@@ -46,4 +46,3 @@ class IsAuthenticated(permissions.BasePermission):
         # 즉, 항상 request.user와 동일한 인스턴스는 아니라는 것이다.
         # obj는 object의 약자로 목적이나 대상을 의미하니.
         return obj.user == request.user
-        # return True
