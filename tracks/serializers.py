@@ -6,6 +6,8 @@ from accounts.serializers import UserSerializer
 
 class CommentChildSerializer(serializers.ModelSerializer):
 	user = UserSerializer(read_only=True)
+	created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
+
 	class Meta:
 		model = TrackComment
 		fields =(
@@ -14,6 +16,7 @@ class CommentChildSerializer(serializers.ModelSerializer):
 			'content',
 			'created_at'
 		)
+
 
 class CommentSerializer(serializers.ModelSerializer):
 	user = UserSerializer(read_only=True)	
@@ -25,8 +28,8 @@ class CommentSerializer(serializers.ModelSerializer):
 		fields = (
 			'id',
 			'user',
-			'children',
 			'content',
+			'children',
 			'created_at'
 		)
 
@@ -36,14 +39,10 @@ class CommentSerializer(serializers.ModelSerializer):
 		)
 
 
-
-
-
 class TrackSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     comment = CommentSerializer(read_only=True, many=True)
     created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
-
 
     class Meta:
         model = Track
