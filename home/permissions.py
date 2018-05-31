@@ -15,7 +15,6 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
         # 읽기 권한
         if request.method in permissions.SAFE_METHODS:
-            # return obj.user == request.user
             return True
  
         # 이 부분이 중요한데, 매개변수로 받는 obj는 우리가 해당앱에서 다루기 위해
@@ -23,7 +22,6 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         # 즉, 항상 request.user와 동일한 인스턴스는 아니라는 것이다.
         # obj는 object의 약자로 목적이나 대상을 의미하니.
         return obj.user == request.user
-        # return True
 
 
 class IsAuthenticated(permissions.BasePermission):
