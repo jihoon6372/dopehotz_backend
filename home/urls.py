@@ -18,17 +18,15 @@ from django.conf import settings
 from rest_framework import routers
 from rest_framework_jwt.views import refresh_jwt_token
 
-from .views import api_view, UserViewSet, get_user
+from .views import UserViewSet
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 
 urlpatterns = [
-    # path('', api_view),
     path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('track/', include('tracks.urls', namespace='track')),
-    path('token/refresh/', refresh_jwt_token)
+    path('token/refresh/', refresh_jwt_token),
+    path('v1/track/', include('tracks.urls', namespace='v1:track')),
 ]
 
 if settings.DEBUG:
