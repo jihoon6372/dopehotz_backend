@@ -20,7 +20,7 @@ class Track(models.Model):
     track_score = models.IntegerField(default=0, verbose_name='트랙 점수')
     on_stage = models.IntegerField(default=0, db_index=True, verbose_name='온스테이지')
     tag = TagField()
-    is_deleted = models.BooleanField(default=False, verbose_name='삭제여부', help_text='트랙을 삭제하는 대신 이부분을 체크 하세요.')
+    is_deleted = models.BooleanField(default=False, db_index=True, verbose_name='삭제여부', help_text='트랙을 삭제하는 대신 이부분을 체크 하세요.')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     duration = models.IntegerField(default=0, verbose_name='곡 길이')
@@ -50,3 +50,20 @@ class Track(models.Model):
             self.slug = self._get_unique_slug()
             
         super(Track, self).save(*args, **kargs)
+
+
+class TrackComment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="작성자", on_delete=models.CASCADE, related_name='track_comment')
+    parent = models.ForeignKey("self", verbose_name="부모 댓글", on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    track = models.ForeignKey(Track, verbose_name="트랙", on_delete=models.CASCADE, related_name='comment')
+    content = models.TextField(verbose_name='내용')
+    is_deleted = models.BooleanField(default=False, db_index=True, verbose_name='삭제여부', help_text='댓글을 삭제하는 대신 이 부분을 체크하세요.')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = '댓글'
+        ordering = ['created_at']
+    
+    def __str__(self):
+        return self.content
