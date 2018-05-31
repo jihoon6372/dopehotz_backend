@@ -39,6 +39,26 @@ class CommentSerializer(serializers.ModelSerializer):
 		)
 
 
+class CommentCreateSerializer(serializers.ModelSerializer):
+	user = UserSerializer(read_only=True)	
+	created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
+
+	class Meta:
+		model = TrackComment
+		fields = (
+			'id',
+			'user',
+            'parent',
+			'content',
+			'created_at'
+		)
+
+		read_only_fields = (
+			'user',
+			'created_at'
+		)
+
+
 class TrackSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     comment = CommentSerializer(read_only=True, many=True)
