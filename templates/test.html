@@ -1,0 +1,7 @@
+<html>
+    <body>
+        {% for user in user_list %}
+        <div>{{user}}|{{user.user}}|{{user.user.profile.profile_picture}}</div>
+        {% endfor %}
+    </body>
+</html>
