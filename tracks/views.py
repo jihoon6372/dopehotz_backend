@@ -6,7 +6,7 @@ from rest_framework import status
 
 from django.db.models import Prefetch
 
-from .serializers import TrackSerializer, CommentSerializer
+from .serializers import TrackSerializer, CommentSerializer, CommentCreateSerializer
 from .models import Track, TrackComment
 from home.permissions import IsOwnerOrReadOnly
 from home.exceptions import InvalidAPIQuery
@@ -69,7 +69,7 @@ class TrackViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         post_id = request.data.get('track_id', '')
         if post_id and kwargs['track_id'] != post_id:
-            return Response({'message' : 'Track ID는 변경할 수 없습니다.'}, status=status.HTTP_400_BAD_REQUEST) 
+            raise InvalidAPIQuery('Track ID는 변경할 수 없습니다.')
 
         sc_data = soundcloud_track_data(str(kwargs['track_id']))
         
@@ -106,3 +106,27 @@ class TrackCommentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self, **kwargs):
         return TrackComment.objects.prefetch_related('children__user__profile').select_related('track', 'user__profile').filter(track__track_id=self.kwargs['track'], parent=None)
+
+    def create(self, request, *args, **kwargs):
+        track = Track.objects.filter(track_id=self.kwargs['track']).first()
+
+        if track is None:
+            raise InvalidAPIQuery('트랙을 찾을 수 없습니다.')
+
+        # 저장
+        serializer = CommentCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(
+            user=request.user,
+            track_id=track.id
+        )
+
+        return Response(serializer.data)
+
+    
+    def get_serializer_class(self):
+        # 버전 관리
+        # if self.request.version == 'v2':
+        #     return CommentSerializer_v2
+
+        return self.serializer_class
