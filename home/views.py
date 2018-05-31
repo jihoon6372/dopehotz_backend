@@ -23,9 +23,22 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-from accounts.models import User
-from post.models import Post
-def get_user(request):
-    user_list = Post.objects.select_related('user__profile').all()
 
-    return render(request, 'test.html', {'user_list':user_list})
+
+from tracks.models import TrackComment, Track
+from django.db.models import Prefetch, Q
+def get_user(request):
+    # tracks = Track.objects.prefetch_related(Prefetch('comment__children', queryset=TrackComment.objects.filter(parent=None))).get(pk=14)
+    # tracks = Track.objects.prefetch_related('comment__children', Prefetch('comment', to_attr='comment')).get(pk=14)
+    tracks = Track.objects.prefetch_related('comment__children', Prefetch('children', queryset=TrackComment.objects.filter(parent=None) )).get(pk=14)
+    # tracks
+
+    # user_list = Post.objects.select_related('user__profile').all()
+
+    return render(request, 'test.html', {'tracks':tracks})
+
+def get_user2(request):
+    comments = TrackComment.objects.prefetch_related('children').filter(parent=None)
+    # user_list = Post.objects.select_related('user__profile').all()
+
+    return render(request, 'test.html', {'comments':comments})
