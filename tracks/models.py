@@ -4,6 +4,7 @@ from django.utils.text import slugify
 
 from tagging.fields import TagField
 
+# 트랙 모델
 class Track(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='track')
     track_id = models.IntegerField(null=True, unique=True, verbose_name='트랙 ID')
@@ -16,7 +17,6 @@ class Track(models.Model):
     download_url = models.CharField(max_length=255, blank=True, null=True, verbose_name='다운로드 URL')
     waveform_url = models.CharField(max_length=255, blank=True, null=True, verbose_name='Waveform URL')
     view_count = models.IntegerField(default=0, verbose_name='조회 수')
-    likes = models.IntegerField(default=0, verbose_name='좋아요')
     track_score = models.IntegerField(default=0, verbose_name='트랙 점수')
     on_stage = models.IntegerField(default=0, db_index=True, verbose_name='온스테이지')
     tag = TagField()
@@ -52,12 +52,7 @@ class Track(models.Model):
         super(Track, self).save(*args, **kargs)
 
 
-# class TrackCommentManager(models.Manager):
-#     def all(self):
-#         qs = super(TrackCommentManager, self).prefetch_related('children__parent').select_related('user__profile', 'track__user__profile').filter(parent=None)
-#         return qs
-
-
+# 트랙 댓글 모델
 class TrackComment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="작성자", on_delete=models.CASCADE, related_name='comment')
     parent = models.ForeignKey("self", verbose_name="부모 댓글", on_delete=models.CASCADE, null=True, blank=True, related_name='children')
@@ -67,12 +62,17 @@ class TrackComment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # objects = TrackCommentManager()
-
-
     class Meta:
         verbose_name_plural = '댓글'
         ordering = ['created_at']
     
     def __str__(self):
         return self.content
+
+
+# 트랙 좋아요 로그 모델
+class TrackLikeLog(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='작성자', on_delete=models.CASCADE, related_name='track_like')
+    track = models.ForeignKey(Track, verbose_name='트랙', on_delete=models.CASCADE, related_name='like')
+    created_at = models.DateTimeField(auto_now_add=True)
+    
