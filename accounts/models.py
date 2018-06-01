@@ -27,6 +27,10 @@ class Profile(models.Model):
     soundcloud_id = models.IntegerField(default=False, blank=True, verbose_name='사운드클라우드 아이디')
     mailing_agree = models.BooleanField('메일 수신여부', default=False, help_text='광고성 메일 수신 동의 여부')
 
+    class Meta:
+        verbose_name = 'profile'
+        verbose_name_plural = '프로필'
+
     def __str__(self):
         return str(self.user)
 
