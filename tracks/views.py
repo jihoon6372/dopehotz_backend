@@ -124,9 +124,22 @@ class TrackCommentViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     
+    
+
+    
     def get_serializer_class(self):
         # 버전 관리
         # if self.request.version == 'v2':
         #     return CommentSerializer_v2
 
         return self.serializer_class
+
+
+class TrackCommentDetailViewSet(viewsets.ModelViewSet):
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+    queryset = TrackComment.objects.prefetch_related('children__user__profile').select_related('track', 'user__profile')
+
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.save()
