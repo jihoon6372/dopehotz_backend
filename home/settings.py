@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'providers.facebook',
     'providers.naver',
     'tracks',
+    'playlists',
 ]
 
 MIDDLEWARE = [
