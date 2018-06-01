@@ -41,5 +41,9 @@ class UserViewSet(viewsets.ModelViewSet):
         self.perform_update(serializer)
         return Response(serializer.data)
 
+    def perform_destroy(self, instance):
+        instance.is_active = False
+        instance.save()
+
     
 
