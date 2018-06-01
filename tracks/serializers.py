@@ -1,12 +1,10 @@
-from rest_framework import serializers
 from .models import Track, TrackComment
-
+from home.serializers import TimeSetSerializer
 from accounts.serializers import UserSerializer 
 
 
-class CommentChildSerializer(serializers.ModelSerializer):
+class CommentChildSerializer(TimeSetSerializer):
 	user = UserSerializer(read_only=True)
-	created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
 
 	class Meta:
 		model = TrackComment
@@ -17,11 +15,16 @@ class CommentChildSerializer(serializers.ModelSerializer):
 			'created_at'
 		)
 
+	def to_representation(self, instance):
+		representation = super(CommentChildSerializer, self).to_representation(instance)
+		if instance.is_deleted:
+			representation['content'] = '삭제된 덧글 입니다.'
 
-class CommentSerializer(serializers.ModelSerializer):
-	user = UserSerializer(read_only=True)	
+		return representation
+
+
+class CommentSerializer(CommentChildSerializer):
 	children = CommentChildSerializer(read_only=True, many=True)
-	created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
 
 	class Meta:
 		model = TrackComment
@@ -35,13 +38,13 @@ class CommentSerializer(serializers.ModelSerializer):
 
 		read_only_fields = (
 			'user',
+			'children',
 			'created_at'
 		)
 
 
-class CommentCreateSerializer(serializers.ModelSerializer):
+class CommentCreateSerializer(TimeSetSerializer):
 	user = UserSerializer(read_only=True)	
-	created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
 
 	class Meta:
 		model = TrackComment
@@ -59,10 +62,9 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 		)
 
 
-class TrackSerializer(serializers.ModelSerializer):
+class TrackSerializer(TimeSetSerializer):
     user = UserSerializer(read_only=True)
     comment = CommentSerializer(read_only=True, many=True)
-    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
 
     class Meta:
         model = Track
