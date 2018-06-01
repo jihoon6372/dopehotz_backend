@@ -15,20 +15,15 @@ Including another URLconf
 """
 from django.urls import path, include
 from django.conf import settings
-from rest_framework import routers
 from rest_framework_jwt.views import refresh_jwt_token
 
 from .views import UserViewSet, get_user
 
-router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
-
 urlpatterns = [
-    path('', include(router.urls)),
     path('token/refresh/', refresh_jwt_token),
     path('v1/tracks/', include('tracks.urls', namespace='v1:track')),
+    path('v1/accounts/', include('accounts.urls', namespace='v1:accounts')),
     path('v2/tracks/', include('tracks.urls', namespace='v2:track')),
-    path('test/', get_user),
 ]
 
 if settings.DEBUG:
