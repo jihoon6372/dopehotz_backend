@@ -6,7 +6,7 @@ from rest_framework import status
 
 from django.db.models import Prefetch
 
-from .serializers import TrackSerializer, CommentSerializer, CommentCreateSerializer
+from .serializers import TrackSerializer, CommentSerializer, CommentCreateSerializer, CommentSerializer_v2
 from .models import Track, TrackComment
 from home.permissions import IsOwnerOrReadOnly
 from home.exceptions import InvalidAPIQuery
@@ -16,6 +16,8 @@ import requests
 def soundcloud_track_data(track_id):
     return requests.get('http://api.soundcloud.com/tracks/'+track_id+'?client_id='+settings.SOCIAL_AUTH_SOUNDCLOUD_KEY).json()
 
+
+# 트랙 뷰셋
 class TrackViewSet(viewsets.ModelViewSet):
     lookup_field = 'track_id'
     serializer_class = TrackSerializer
@@ -50,7 +52,6 @@ class TrackViewSet(viewsets.ModelViewSet):
         waveform_url = sc_data.get('waveform_url', '')
         duration = sc_data.get('duration', '')
 
-
         # 저장
         serializer = TrackSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -65,7 +66,6 @@ class TrackViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    
     def update(self, request, *args, **kwargs):
         post_id = request.data.get('track_id', '')
         if post_id and kwargs['track_id'] != post_id:
@@ -81,13 +81,11 @@ class TrackViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
-
     
     def perform_destroy(self, instance):
         instance.is_deleted = True
         instance.track_id = None
         instance.save()
-
 
     def get_serializer_class(self):
         # 버전 관리
@@ -97,12 +95,21 @@ class TrackViewSet(viewsets.ModelViewSet):
         return self.serializer_class
 
 
-
-
-class TrackCommentViewSet(viewsets.ModelViewSet):
+# 트랙 댓글 버전관리 상속용 뷰셋
+class TrackCommentVersioningViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
-    # queryset = TrackComment.objects.prefetch_related('children__user__profile').select_related('user').filter(parent=None)
+
+    def get_serializer_class(self):
+        # 버전 관리
+        if self.request.version == 'v2':
+            return CommentSerializer_v2
+
+        return self.serializer_class
+
+
+# 트랙 댓글 뷰셋
+class TrackCommentViewSet(TrackCommentVersioningViewSet):
 
     def get_queryset(self, **kwargs):
         return TrackComment.objects.prefetch_related('children__user__profile').select_related('track', 'user__profile').filter(track__track_id=self.kwargs['track'], parent=None)
@@ -123,21 +130,9 @@ class TrackCommentViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    
-    
 
-    
-    def get_serializer_class(self):
-        # 버전 관리
-        # if self.request.version == 'v2':
-        #     return CommentSerializer_v2
-
-        return self.serializer_class
-
-
-class TrackCommentDetailViewSet(viewsets.ModelViewSet):
-    serializer_class = CommentSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+# 트랙 댓글 디테일 뷰셋
+class TrackCommentDetailViewSet(TrackCommentVersioningViewSet):
     queryset = TrackComment.objects.prefetch_related('children__user__profile').select_related('track', 'user__profile')
 
     def perform_destroy(self, instance):
