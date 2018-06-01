@@ -1,9 +1,8 @@
 from django.conf import settings
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets
-from rest_framework import permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.decorators import list_route
 
 from django.db.models import Prefetch
 
@@ -87,6 +86,18 @@ class TrackViewSet(viewsets.ModelViewSet):
         instance.is_deleted = True
         instance.track_id = None
         instance.save()
+
+    @list_route()
+    def on_stage(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(on_stage=1)
+        
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     def get_serializer_class(self):
         # 버전 관리
