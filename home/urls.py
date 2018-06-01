@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('token/refresh/', refresh_jwt_token),
     path('v1/tracks/', include('tracks.urls', namespace='v1:track')),
+    path('v2/tracks/', include('tracks.urls', namespace='v2:track')),
     path('test/', get_user),
 ]
 
