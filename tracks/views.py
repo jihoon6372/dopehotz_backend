@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.response import Response
@@ -6,8 +7,8 @@ from rest_framework import status
 
 from django.db.models import Prefetch
 
-from .serializers import TrackSerializer, CommentSerializer, CommentCreateSerializer, CommentSerializer_v2
-from .models import Track, TrackComment
+from .serializers import TrackSerializer, CommentSerializer, CommentCreateSerializer, CommentSerializer_v2, TrackLikeSerializer
+from .models import Track, TrackComment, TrackLikeLog
 from home.permissions import IsOwnerOrReadOnly
 from home.exceptions import InvalidAPIQuery
 
@@ -22,7 +23,7 @@ class TrackViewSet(viewsets.ModelViewSet):
     lookup_field = 'track_id'
     serializer_class = TrackSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
-    queryset = Track.objects.prefetch_related(Prefetch('comment', queryset=TrackComment.objects.filter(parent=None)), 'comment__user__profile', 'comment__children__user__profile').select_related('user__profile').filter(is_deleted=False)
+    queryset = Track.objects.prefetch_related(Prefetch('comment', queryset=TrackComment.objects.filter(parent=None)), 'comment__user__profile', 'comment__children__user__profile', 'like').select_related('user__profile').filter(is_deleted=False)
 
     def create(self, request, *args, **kwargs):
         # 사우드클라우드 계정인지 확인
@@ -138,3 +139,25 @@ class TrackCommentDetailViewSet(TrackCommentVersioningViewSet):
     def perform_destroy(self, instance):
         instance.is_deleted = True
         instance.save()
+
+
+
+# 트랙 좋아요 뷰셋
+class TrackLikeViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def create(self, request, *args, **kwargs):
+        serializer = TrackLikeSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+
+        return Response({'count': self.like_count}, status=status.HTTP_201_CREATED)
+
+    def perform_create(self, serializer):
+        track = get_object_or_404(Track, track_id=self.kwargs['track'])
+        like_log, is_create = TrackLikeLog.objects.get_or_create(user=self.request.user, track=track)
+
+        if is_create == False:
+            like_log.delete()
+
+        self.like_count = TrackLikeLog.objects.filter(track=track).count()
