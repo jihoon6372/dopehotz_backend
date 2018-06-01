@@ -3,6 +3,7 @@ from home.serializers import TimeSetSerializer
 from accounts.serializers import UserSerializer 
 
 
+# 대댓글 시리얼라이저 (replies)
 class CommentChildSerializer(TimeSetSerializer):
 	user = UserSerializer(read_only=True)
 
@@ -23,6 +24,7 @@ class CommentChildSerializer(TimeSetSerializer):
 		return representation
 
 
+# 댓글 시리얼라이저
 class CommentSerializer(CommentChildSerializer):
 	children = CommentChildSerializer(read_only=True, many=True)
 
@@ -43,6 +45,7 @@ class CommentSerializer(CommentChildSerializer):
 		)
 
 
+# 댓글 생성 시리얼라이저
 class CommentCreateSerializer(TimeSetSerializer):
 	user = UserSerializer(read_only=True)	
 
@@ -62,6 +65,7 @@ class CommentCreateSerializer(TimeSetSerializer):
 		)
 
 
+# 트랙 시리얼라이저
 class TrackSerializer(TimeSetSerializer):
     user = UserSerializer(read_only=True)
     comment = CommentSerializer(read_only=True, many=True)
