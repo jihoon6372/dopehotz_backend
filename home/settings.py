@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'tagging',
 
     #Custom-app
-    'post',
     'accounts',
     'providers.kakao',
     'providers.facebook',
