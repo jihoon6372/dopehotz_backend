@@ -59,7 +59,7 @@ class CommentCreateSerializer(TimeSetSerializer):
 		model = TrackComment
 		fields = (
 			'id',
-            'parent',
+			'parent',
 			'content',
 			'created_at'
 		)
@@ -74,22 +74,22 @@ class TrackSerializer(TimeSetSerializer):
         model = Track
         fields = (
             'track_id',
-			'user',
-			'title',
-			'slug',
-			'tape_info',
-			'duration',
-			'lyrics',
-			'tag',
-			'genre',
-			'image_url',
-			'download_url',
-			'waveform_url',
-			'view_count',
-			'likes',
-			'track_score',
-			'on_stage',
-			'comment',
+            'user',
+            'title',
+            'slug',
+            'tape_info',
+            'duration',
+            'lyrics',
+            'tag',
+            'genre',
+            'image_url',
+            'download_url',
+            'waveform_url',
+            'view_count',
+            'likes',
+            'track_score',
+            'on_stage',
+            'comment',
             'created_at'
         )
 
