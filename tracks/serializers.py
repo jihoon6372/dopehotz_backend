@@ -1,6 +1,8 @@
-from .models import Track, TrackComment
+from rest_framework import serializers
+
+from .models import Track, TrackComment, TrackLikeLog
 from home.serializers import TimeSetSerializer
-from accounts.serializers import UserSerializer 
+from accounts.serializers import UserSerializer
 
 
 # 대댓글 시리얼라이저 (replies)
@@ -9,11 +11,11 @@ class CommentChildSerializer(TimeSetSerializer):
 
 	class Meta:
 		model = TrackComment
-		fields =(
-			'id',
-			'user',
-			'content',
-			'created_at'
+		fields = (
+            'id',
+            'user',
+            'content',
+            'created_at'
 		)
 
 	def to_representation(self, instance):
@@ -69,6 +71,7 @@ class CommentCreateSerializer(TimeSetSerializer):
 class TrackSerializer(TimeSetSerializer):
     user = UserSerializer(read_only=True)
     comment = CommentSerializer(read_only=True, many=True)
+    like_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Track
@@ -86,7 +89,7 @@ class TrackSerializer(TimeSetSerializer):
             'download_url',
             'waveform_url',
             'view_count',
-            'likes',
+            'like_count',
             'track_score',
             'on_stage',
             'comment',
@@ -96,7 +99,6 @@ class TrackSerializer(TimeSetSerializer):
         read_only_fields = (
             'slug',
             'view_count',
-            'likes',
             'track_score',
             'on_stage',
             'genre',
@@ -105,3 +107,13 @@ class TrackSerializer(TimeSetSerializer):
             'waveform_url'
         )
 
+    def get_like_count(self, obj):
+            return obj.like.count()
+
+        
+
+class TrackLikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrackLikeLog
+        fields = ('user',)
+        read_only_fields = ('user',)
