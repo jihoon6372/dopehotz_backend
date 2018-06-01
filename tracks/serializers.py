@@ -31,11 +31,11 @@ class CommentSerializer(CommentChildSerializer):
 	class Meta:
 		model = TrackComment
 		fields = (
-			'id',
-			'user',
-			'content',
-			'children',
-			'created_at'
+            'id',
+            'user',
+            'content',
+            'children',
+            'created_at'
 		)
 
 
@@ -45,9 +45,9 @@ class CommentSerializer_v2(CommentSerializer):
 	class Meta:
 		model = TrackComment
 		fields = (
-			'user',
-			'content',
-			'created_at'
+            'user',
+            'content',
+            'created_at'
 		)
 
 
@@ -58,10 +58,10 @@ class CommentCreateSerializer(TimeSetSerializer):
 	class Meta:
 		model = TrackComment
 		fields = (
-			'id',
-			'parent',
-			'content',
-			'created_at'
+            'id',
+            'parent',
+            'content',
+            'created_at'
 		)
 
 
@@ -94,14 +94,14 @@ class TrackSerializer(TimeSetSerializer):
         )
 
         read_only_fields = (
-			'slug',
-			'view_count',
-			'likes',
-			'track_score',
-			'on_stage',
-			'genre',
-			'image_url',
-			'download_url',
-			'waveform_url'
+            'slug',
+            'view_count',
+            'likes',
+            'track_score',
+            'on_stage',
+            'genre',
+            'image_url',
+            'download_url',
+            'waveform_url'
         )
 
