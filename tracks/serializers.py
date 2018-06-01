@@ -38,10 +38,15 @@ class CommentSerializer(CommentChildSerializer):
 			'created_at'
 		)
 
-		read_only_fields = (
+
+# 댓글 버전2 (댓글 시리얼라이저 상속 후 필드만 제거)
+class CommentSerializer_v2(CommentSerializer):
+
+	class Meta:
+		model = TrackComment
+		fields = (
 			'user',
-			'children',
-			'created_at'
+			'content'
 		)
 
 
@@ -53,14 +58,8 @@ class CommentCreateSerializer(TimeSetSerializer):
 		model = TrackComment
 		fields = (
 			'id',
-			'user',
             'parent',
 			'content',
-			'created_at'
-		)
-
-		read_only_fields = (
-			'user',
 			'created_at'
 		)
 
@@ -94,7 +93,6 @@ class TrackSerializer(TimeSetSerializer):
         )
 
         read_only_fields = (
-            'user',
 			'slug',
 			'view_count',
 			'likes',
@@ -103,7 +101,6 @@ class TrackSerializer(TimeSetSerializer):
 			'genre',
 			'image_url',
 			'download_url',
-			'waveform_url',
-            'created_at'
+			'waveform_url'
         )
 
