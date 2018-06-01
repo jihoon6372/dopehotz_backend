@@ -46,7 +46,8 @@ class CommentSerializer_v2(CommentSerializer):
 		model = TrackComment
 		fields = (
 			'user',
-			'content'
+			'content',
+			'created_at'
 		)
 
 
