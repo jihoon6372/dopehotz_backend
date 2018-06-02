@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from .serializers import PlayListGroupSerializer, PlayListGroupDetailSerializer
 from .models import PlayListGroup, PlayList
 from home.permissions import IsAuthenticated
+from rest_framework.exceptions import NotAuthenticated
 
 class PlayListGroupViewSet(viewsets.ModelViewSet):
     serializer_class = PlayListGroupSerializer
@@ -22,6 +23,10 @@ class PlayListGroupViewSet(viewsets.ModelViewSet):
 
     
     def list(self, request, *args, **kwargs):
+
+        if not request.user.is_authenticated:
+            raise NotAuthenticated()
+
         queryset = self.filter_queryset(self.get_queryset().filter(user=request.user))
 
         page = self.paginate_queryset(queryset)
