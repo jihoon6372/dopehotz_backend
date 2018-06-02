@@ -2,12 +2,14 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from .serializers import PlayListGroupSerializer
+from .serializers import PlayListGroupSerializer, PlayListGroupDetailSerializer
 from .models import PlayListGroup, PlayList
+from home.permissions import IsAuthenticated
 
 class PlayListGroupViewSet(viewsets.ModelViewSet):
     serializer_class = PlayListGroupSerializer
-    queryset = PlayListGroup.objects.all()
+    queryset = PlayListGroup.objects.prefetch_related('play_list').all()
+    permission_classes = (IsAuthenticated,)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -28,4 +30,10 @@ class PlayListGroupViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = PlayListGroupDetailSerializer(instance)
         return Response(serializer.data)
