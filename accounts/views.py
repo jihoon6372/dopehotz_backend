@@ -30,16 +30,6 @@ class UserViewSet(viewsets.ModelViewSet):
         self.object = get_object_or_404(User, pk=request.user.id)
         serializer = self.get_serializer(self.object)
         return Response(serializer.data)
-    
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('profile', False)
-        print('2')
-        print(partial)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response(serializer.data)
 
     def perform_destroy(self, instance):
         instance.is_active = False
