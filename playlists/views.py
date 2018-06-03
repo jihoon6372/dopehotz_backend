@@ -7,10 +7,12 @@ from .models import PlayListGroup, PlayList
 from home.permissions import IsAuthenticated
 from rest_framework.exceptions import NotAuthenticated
 
+# from rest_framework import permissions
 class PlayListGroupViewSet(viewsets.ModelViewSet):
     serializer_class = PlayListGroupSerializer
-    queryset = PlayListGroup.objects.prefetch_related('play_list').all()
+    queryset = PlayListGroup.objects.prefetch_related('play_list__track__user__profile').all()
     permission_classes = (IsAuthenticated,)
+    # permission_classes = (permissions.AllowAny,)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
