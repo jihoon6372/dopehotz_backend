@@ -67,9 +67,29 @@ class CommentCreateSerializer(TimeSetSerializer):
 		)
 
 
-# 트랙 시리얼라이저
-class TrackSerializer(TimeSetSerializer):
+class TrackSerializerBySimple(TimeSetSerializer):
     user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Track
+        fields = (
+            'track_id',
+            'user',
+            'title',
+            'tag',
+            'genre',
+            'image_url',
+            'download_url',
+            'waveform_url',
+            'view_count',
+            'track_score',
+            'created_at'
+        )
+
+
+
+# 트랙 시리얼라이저
+class TrackSerializer(TrackSerializerBySimple):
     comment = CommentSerializer(read_only=True, many=True)
     like_count = serializers.SerializerMethodField()
 
