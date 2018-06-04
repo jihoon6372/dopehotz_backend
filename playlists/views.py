@@ -6,6 +6,9 @@ from .serializers import PlayListGroupSerializer, PlayListGroupDetailSerializer,
 from .models import PlayListGroup, PlayList
 from home.permissions import IsAuthenticated
 from rest_framework.exceptions import NotAuthenticated
+from home.exceptions import InvalidAPIQuery
+
+import json
 
 # from rest_framework import permissions
 class PlayListGroupViewSet(viewsets.ModelViewSet):
@@ -45,12 +48,31 @@ class PlayListGroupViewSet(viewsets.ModelViewSet):
         serializer = PlayListGroupDetailSerializer(instance)
         return Response(serializer.data)
 
+    
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = PlayListUpdateSerializer(instance)
 
-import json
+        data = request.data.get('list', None)
+        if data is not None:
+            try:
+                data = json.loads(data)
+                if type(data) is list:
+                    print('list형')
+            except:
+                raise InvalidAPIQuery('JSON 형식이 잘못 되었습니다.')
+
+        return Response({'data':'dd'})
+
+
+# import json
 class PlayListUpdateViewSet(viewsets.ViewSet):
+    permission_classes = (IsAuthenticated,)
     def update(self, request, pk=None):
         data = request.data.get('list', None)
         
+        data = json.loads(data)
+        print(data)
         if data is not None:
             data = json.loads(data)
             if type(data) is list:
