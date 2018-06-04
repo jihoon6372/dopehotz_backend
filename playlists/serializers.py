@@ -29,6 +29,7 @@ class PlayListSerializer(TimeSetSerializer):
             'created_at'
         )
 
+
 # 플레이리스트 그룹 디테일 시리얼라이저
 class PlayListGroupDetailSerializer(PlayListGroupSerializer):
     play_list = PlayListSerializer(many=True)
@@ -43,3 +44,14 @@ class PlayListGroupDetailSerializer(PlayListGroupSerializer):
             'play_list',
             'created_at'
         )
+
+
+from rest_framework import serializers
+class PlayListUpdateSerializer(serializers.Serializer):
+    data = serializers.JSONField()
+
+    def update(self, instance, validated_data):
+        print()
+        print('1111')
+        print(validated_data)
+        return instance
