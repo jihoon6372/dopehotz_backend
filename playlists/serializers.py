@@ -48,10 +48,10 @@ class PlayListGroupDetailSerializer(PlayListGroupSerializer):
 
 from rest_framework import serializers
 class PlayListUpdateSerializer(serializers.Serializer):
-    data = serializers.JSONField()
+    class Meta:
+        model = PlayListGroup
 
-    def update(self, instance, validated_data):
-        print()
-        print('1111')
-        print(validated_data)
-        return instance
+        fields = (
+            # 'id',
+            # 'created_at'
+        )
