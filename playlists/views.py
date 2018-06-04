@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from .serializers import PlayListGroupSerializer, PlayListGroupDetailSerializer
+from .serializers import PlayListGroupSerializer, PlayListGroupDetailSerializer, PlayListUpdateSerializer
 from .models import PlayListGroup, PlayList
 from home.permissions import IsAuthenticated
 from rest_framework.exceptions import NotAuthenticated
@@ -44,3 +44,39 @@ class PlayListGroupViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         serializer = PlayListGroupDetailSerializer(instance)
         return Response(serializer.data)
+
+
+import json
+class PlayListUpdateViewSet(viewsets.ViewSet):
+    def update(self, request, pk=None):
+        data = request.data.get('list', None)
+        
+        if data is not None:
+            data = json.loads(data)
+            if type(data) is list:
+                print('list형')
+                
+
+        return Response({'test':'a'})
+
+
+from django.http import HttpResponse
+
+def test(requets):
+    data = [
+        {
+            'track' : '100001',
+            'order' : 1
+        },
+        {
+            'track' : '100002',
+            'order' : 2
+        },
+        {
+            'track' : '100003',
+            'is_delete' : True
+        }
+    ]
+
+    data = json.dumps(data)
+    return HttpResponse(data)
