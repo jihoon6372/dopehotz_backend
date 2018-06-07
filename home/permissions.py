@@ -1,5 +1,7 @@
 from rest_framework import permissions
 
+from blacklists.models import BlackList
+
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
     객체의 소유자에게만 쓰기를 허용하는 커스텀 권한
@@ -46,3 +48,16 @@ class IsAuthenticated(permissions.BasePermission):
         # 즉, 항상 request.user와 동일한 인스턴스는 아니라는 것이다.
         # obj는 object의 약자로 목적이나 대상을 의미하니.
         return obj.user == request.user
+
+
+# 블랙리스트 체크
+class BlacklistPermission(permissions.BasePermission):
+    """
+    Global permission check for blacklisted IPs.
+    """
+    # message = 'Adding customers not allowed.'
+
+    def has_permission(self, request, view):
+        ip_addr = request.META['REMOTE_ADDR']
+        blacklisted = BlackList.objects.filter(ip_addr=ip_addr).exists()
+        return not blacklisted
