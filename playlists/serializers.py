@@ -45,23 +45,10 @@ class PlayListGroupDetailSerializer(PlayListGroupSerializer):
             'created_at'
         )
 
-    
-    def update(self, instance, validated_data):
-        # raise_errors_on_nested_writes('update', self, validated_data)
-        
-
-        # for attr, value in validated_data.items():
-        #     setattr(instance, attr, value)
-        # instance.save()  
-        print('s-update')
-
-        return instance
-
 
 from rest_framework import serializers
 class PlayListUpdateSerializer(serializers.Serializer):
+    
     class Meta:
         model = PlayListGroup
-
-        fields = (
-        )
+        fields = ()
