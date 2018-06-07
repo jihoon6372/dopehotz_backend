@@ -61,6 +61,7 @@ class CommentCreateSerializer(TimeSetSerializer):
 		model = TrackComment
 		fields = (
             'id',
+            'user',
             'parent',
             'content',
             'created_at'
