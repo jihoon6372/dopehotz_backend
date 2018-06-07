@@ -140,7 +140,8 @@ class TrackCommentViewSet(TrackCommentVersioningViewSet):
             track_id=track.id
         )
 
-        return Response(serializer.data)
+        serializer = self.list(request, order_by='desc')	# 댓글 등록시 해당 트랙의 댓글리스트 불러오는 list (요청사항인데 별로 좋지 않은방법같아 돌아갈 수 있음)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 # 트랙 댓글 디테일 뷰셋
