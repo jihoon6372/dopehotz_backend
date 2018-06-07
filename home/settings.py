@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'providers.naver',
     'tracks',
     'playlists',
+    'blacklists',
 ]
 
 MIDDLEWARE = [
