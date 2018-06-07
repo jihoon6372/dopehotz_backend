@@ -25,3 +25,4 @@ class PlayList(models.Model):
 
     class Meta:
         verbose_name_plural = '플레이리스트'
+        ordering = ['order']
