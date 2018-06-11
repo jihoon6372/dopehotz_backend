@@ -17,7 +17,7 @@ def index(request):
 
 
 class LogoutView(RedirectView):
-	url = '//auth.dopehotz.com:8000'
+	url = '//test.auth.dopehotz.com'
 
 	def get(self, request, *args, **kwargs):
 		auth_logout(request)
@@ -38,7 +38,7 @@ def get_user_token(request):
     social_account = SocialAccount.objects.get(user=request.user)
     social_token = SocialToken.objects.get(account__user=request.user, account__provider=social_account.provider)
 
-    url = 'http://auth.dopehotz.com:8000/rest-auth/'+social_account.provider+'/'
+    url = 'http://test.auth.dopehotz.com/rest-auth/'+social_account.provider+'/'
     headers = {'content-type': 'application/json'}
     data = {'access_token': social_token.token}
 
