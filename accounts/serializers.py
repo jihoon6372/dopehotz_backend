@@ -1,5 +1,52 @@
 from rest_framework import serializers
 from accounts.models import Profile, User
+from tracks.models import Track
+
+from home.serializers import TimeSetSerializer
+
+class UserTrackSerializer(TimeSetSerializer):
+
+    class Meta:
+        model = Track
+        
+        fields = (
+            'track_id',
+            'user',
+            'title',
+            'slug',
+            'tape_info',
+            'duration',
+            'lyrics',
+            'tag',
+            'genre',
+            'image_url',
+            'download_url',
+            'waveform_url',
+            'view_count',
+            'track_score',
+            'on_stage',
+            'created_at'
+        )
+
+        read_only_fields = (
+            'track_id',
+            'user',
+            'title',
+            'slug',
+            'tape_info',
+            'duration',
+            'lyrics',
+            'tag',
+            'genre',
+            'image_url',
+            'download_url',
+            'waveform_url',
+            'view_count',
+            'track_score',
+            'on_stage',
+            'created_at'
+        )
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,6 +68,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(required=False)
+    track = UserTrackSerializer(many=True)
 
     class Meta:
         model = User
@@ -28,7 +76,8 @@ class UserSerializer(serializers.ModelSerializer):
             'id',
             'first_name',
             'last_name',
-            'profile'
+            'profile',
+            'track'
         )
 
     def update(self, instance, validated_data):
