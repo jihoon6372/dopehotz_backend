@@ -35,24 +35,7 @@ class KakaoLogin(SocialLoginView):
 
 
 def get_user_token(request):
-    social_account = SocialAccount.objects.get(user=request.user)
-    social_token = SocialToken.objects.get(account__user=request.user, account__provider=social_account.provider)
-
-    url = 'https://auth.dopehotz.com/rest-auth/'+social_account.provider+'/'
-    headers = {"content-type": 'application/json'}
-    data = {"access_token": social_token.token}
-
-    # token = requests.post(url=url, data=json.dumps(data), headers=headers)
-
-    print()
-    print('request start::::::::')
-    aa = requests.get(url='http://127.0.0.1/v1/tracks/')
-    print(aa)
+    from rest_auth.utils import jwt_encode
     
-    # if(token.status_code == 500):
-    #     return redirect(reverse('logout'))
-
-    # token = json.loads(token.content)
-
-    # return redirect('/#token='+token['token'])
-    return redirect('/')
+    token = jwt_encode(request.user)
+    return redirect('/#token='+token)
