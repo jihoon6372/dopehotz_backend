@@ -17,7 +17,8 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
-    queryset = get_user_model().objects.prefetch_related('profile').all()
+    User = get_user_model()
+    queryset = User.objects.prefetch_related('profile').all()
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
