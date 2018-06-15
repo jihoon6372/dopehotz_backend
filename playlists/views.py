@@ -73,11 +73,12 @@ class PlayListViewSet(viewsets.ModelViewSet):
 
                         try:
                             obj = PlayList.objects.get(id=_id)
-                            if is_delete:
-                                obj.delete()
-                            else:
-                                obj.order = order
-                                obj.save()
+                            if obj.group_id == pk:
+                                if is_delete:
+                                    obj.delete()
+                                else:
+                                    obj.order = order
+                                    obj.save()
 
                         except PlayList.DoesNotExist:
                             return Response({"detail": "찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
