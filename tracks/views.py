@@ -122,7 +122,8 @@ class TrackViewSet(viewsets.ModelViewSet):
             image_url=image_url,
             download_url = download_url,
             waveform_url = waveform_url,
-            duration = duration
+            duration = duration,
+            api = 1
         )
 
         # return Response(serializer.data)
