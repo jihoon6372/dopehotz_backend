@@ -4,6 +4,16 @@ from django.utils.text import slugify
 
 from tagging.fields import TagField
 
+# 트랙 api 리스트
+class TrackApiList(models.Model):
+    name = models.CharField(verbose_name='API', max_length=50)
+
+    class Meta:
+        verbose_name_plural = 'Api 리스트'
+
+    def __str__(self):
+        return self.name
+
 # 트랙 모델
 class Track(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='track')
@@ -24,6 +34,7 @@ class Track(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     duration = models.IntegerField(default=0, verbose_name='곡 길이')
+    api = models.ForeignKey(TrackApiList, on_delete=models.CASCADE, related_name='api')
     
 
     class Meta:
@@ -75,4 +86,3 @@ class TrackLikeLog(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='작성자', on_delete=models.CASCADE, related_name='track_like')
     track = models.ForeignKey(Track, verbose_name='트랙', on_delete=models.CASCADE, related_name='like')
     created_at = models.DateTimeField(auto_now_add=True)
-    
