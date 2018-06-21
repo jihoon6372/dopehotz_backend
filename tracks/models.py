@@ -8,7 +8,7 @@ from tagging.fields import TagField
 class Track(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='track')
     track_id = models.IntegerField(null=True, unique=True, verbose_name='트랙 ID')
-    title = models.CharField('제목', max_length=100)
+    title = models.CharField('제목', max_length=100, blank=True, null=True)
     slug = models.SlugField('SLUG', unique=True, max_length=100, allow_unicode=True, null=True, help_text='자동 입력')
     tape_info = models.TextField(blank=True, null=True, verbose_name='Tape INFO')
     lyrics = models.TextField(blank=True, null=True, verbose_name='lyrics')
