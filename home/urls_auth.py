@@ -2,7 +2,7 @@ from django.urls import path, include
 from django.conf import settings
 
 from .views_auth import FacebookLogin, NaverLogin, KakaoLogin
-from .views_auth import index, LogoutView, get_user_token
+from .views_auth import index, LogoutView, get_user_token, callback_comp
 from accounts.views import login_cancelled
 
 urlpatterns = [
@@ -19,6 +19,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('get-user-token/', get_user_token, name='get_user_token'),
+
+    path('callback/', callback_comp),
 ]
 
 if settings.DEBUG:
