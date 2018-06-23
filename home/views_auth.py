@@ -40,3 +40,6 @@ def get_user_token(request):
     
     token = jwt_encode(request.user)
     return redirect(settings.HOME_URL+'/#token='+token)
+
+def callback_comp(request):
+	return render(request, 'callback_comp.html')
