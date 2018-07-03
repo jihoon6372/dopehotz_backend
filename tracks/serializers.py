@@ -138,3 +138,28 @@ class TrackLikeSerializer(serializers.ModelSerializer):
         model = TrackLikeLog
         fields = ('user',)
         read_only_fields = ('user',)
+
+
+class OnlyTrackSerializer(TimeSetSerializer):
+    class Meta:
+        model = Track
+        fields = (
+            'track_id',
+            'title',
+            'tag',
+            'genre',
+            'image_url',
+            'download_url',
+            'waveform_url',
+            'view_count',
+            'track_score',
+            'created_at'
+        )
+
+class TrackLikeListSerializer(serializers.ModelSerializer):
+    track = OnlyTrackSerializer(read_only=True)
+
+    class Meta:
+        model = TrackLikeLog
+        fields = ('track',)
+        read_only_fields = ('track',)
