@@ -6,7 +6,7 @@ from rest_framework.decorators import list_route
 
 from django.db.models import Prefetch
 
-from .serializers import TrackSerializer, CommentSerializer, CommentCreateSerializer, CommentSerializer_v2, TrackLikeSerializer
+from .serializers import TrackSerializer, CommentSerializer, CommentCreateSerializer, CommentSerializer_v2, TrackLikeSerializer, TrackLikeListSerializer
 from .models import Track, TrackComment, TrackLikeLog
 from home.permissions import IsOwnerOrReadOnly
 from home.exceptions import InvalidAPIQuery
@@ -196,3 +196,21 @@ class TrackLikeViewSet(viewsets.ModelViewSet):
             like_log.delete()
 
         self.like_count = TrackLikeLog.objects.filter(track=track).count()
+
+
+# 트랙 좋아요 한 리스트 가져오기
+class TrackLikeListViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = TrackLikeListSerializer
+    queryset = TrackLikeLog.objects.select_related('track').all()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset()).filter(user=request.user)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
