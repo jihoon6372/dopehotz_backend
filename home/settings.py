@@ -139,6 +139,7 @@ STATICFILES_DIRS = [
 ROOT_URLCONF = 'home.urls'
 ADMIN_URLCONF = 'home.urls_admin'
 AUTH_URLCONF = 'home.urls_auth'
+TOWER_URLCONT = 'home.urls_tower'
 
 ROOT_HOSTCONF = 'home.hosts'
 DEFAULT_HOST = 'api'
