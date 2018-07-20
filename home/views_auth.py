@@ -42,4 +42,10 @@ def get_user_token(request):
     return redirect(settings.HOME_URL+'/#token='+token)
 
 def callback_comp(request):
-	return render(request, 'callback_comp.html')
+    print(request.__dict__)
+    return render(request, 'callback_comp.html')
+
+
+def soundcloud_register(request, access_token):
+    
+    return HttpResponse(access_token)
