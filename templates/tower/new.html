@@ -1,0 +1,49 @@
+{% extends "tower/base.html" %}
+{% block head_title %}DOPEHOTZ - 로그인{% endblock %}
+{% load socialaccount %}
+{% block content %}
+<div class="layout_body">
+        <div class="sub_title" style="background-image: url(/static/img/sub_main/sub_main03.jpg)">
+            <div class="title_area">
+                <h2>TOWER DOPEHOTZ</h2>
+                <h1>NEW TRACK</h1>
+            </div>
+        </div>
+    <div class="content">
+        
+        <div class="dashboard_layout_l">
+            <div class="content_title_wrap">
+                <h3>TRACK INFO</h3>
+            </div>
+            <div class="content_tile">
+                <div class="post_form">
+                    <label for="trackdec">트랙 소개</label>
+                    <textarea id="trackdec" name="trackdec" maxlength="600" placeholder="곡에 대한 소개를 적어주세요."></textarea>
+                </div>
+            </div>
+            <div class="content_tile">
+                <div class="post_form">
+                    <label for="lyrics">가사입력</label>
+                    <textarea id="lyrics" name="lyrics" maxlength="1200" placeholder="이 곡의 가사를 적어주세요."></textarea>
+                </div>
+            </div>
+            <div class="content_tile">
+                <div class="post_form">
+                    <div class="tag_wrap">
+                        <label for="tracktag">가사입력</label>
+                        <input id="tracktag" type="text" class="tagged form_control" name="tag_1" data-removeBtn="true" placeholder="태그를 입력해주세요. / 엔터로 구분">
+                    </div>
+                </div>
+            </div>
+            <div class="track_submit_wrap">
+                <a class="track_submit" href="#">트랙 다시 선택</a>
+                <button class="track_submit">트랙 공개하기</button>
+            </div>
+        </div>
+        <div class="dashboard_layout_r">
+            
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "tower/base.html" %}
+{% block head_title %}DOPEHOTZ - 로그인{% endblock %}
+{% load socialaccount %}
+{% block content %}
+<div class="layout_body">
+    <!-- 트랙이 있을때 -->
+    <div class="sub_title" style="background-image: url(/static/img/sub_main/sub_main03.jpg)">
+        <div class="title_area">
+            <h2>TOWER DOPEHOTZ</h2>
+            <h1>POST TRACK</h1>
+        </div>
+    </div>
+    <div class="content">
+        <div class="post_ready">
+            <h2>새로운 트랙을 완성 하셨나요?
+                <br>지금 바로 트랙을 등록해 보세요!</h2>
+            <a href="#">트랙 등록하기</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

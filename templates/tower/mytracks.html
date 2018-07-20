@@ -1,0 +1,297 @@
+{% extends "tower/base.html" %}
+{% block head_title %}DOPEHOTZ - 로그인{% endblock %}
+{% load socialaccount %}
+{% block content %}
+<div class="layout_body">
+    <!-- 트랙이 있을때 -->
+    <div class="sub_title" style="background-image: url(/static/img/sub_main/sub_main02.jpg)">
+        <div class="title_area">
+            <h2>YOUR MUSIC</h2>
+            <h1>ALL TRACK<span>12</span></h1>
+        </div>
+    </div>
+    <div class="content">
+        <div class="track_filter_wrap">
+            <ul>
+                <li class="selected"><a href="#">RECENTLY POST</a></li>
+                <li><a href="#">TOP PLAYED</a></li>
+                <li><a href="#">TOP LIKED</a></li>
+            </ul>
+        </div>
+        <ul class="mytrack_list" style="display: ;">
+            <li class="mytrack_list_item">
+                <div style="background-image: url(https://i1.sndcdn.com/artworks-000204493872-qnzizv-t500x500.jpg)">
+                    <div class="track_tool_btn"></div>
+                    <ul class="track_tools">
+                        <li>
+                            <a href="#" class="item_edit_btn"></a>
+                        </li>
+                        <li>
+                            <a href="#" class="item_del_btn"></a>
+                        </li>
+                    </ul>
+                    <a class="play_trigger" data-tracknum="304330766">
+                        <img src="/static/img/assets/play.png" />
+                    </a>
+    
+                </div>
+                <a href="#해당 트랙 링크" target="_blank" class="track_title">
+                    <em>Chunky! by SUMIN, HORIM, Nahzam Sue</em>
+                </a>
+            </li>
+            <!-- /////////////////////////////////////////////////////////////////////////////////// -->
+            <li class="mytrack_list_item">
+                <div style="background-image: url(https://i1.sndcdn.com/artworks-000331877601-glsy3c-t500x500.jpg)">
+                    <div class="track_tool_btn"></div>
+                    <ul class="track_tools">
+                        <li>
+                            <a href="#" class="item_edit_btn"></a>
+                        </li>
+                        <li>
+                            <a href="#" class="item_del_btn"></a>
+                        </li>
+                    </ul>
+                    <a class="play_trigger" data-tracknum="426750291">
+                        <img src="/static/img/assets/play.png" />
+                    </a>
+    
+                </div>
+                <a href="#해당 트랙 링크" target="_blank" class="track_title">
+                    <em>Coogie X Jvcki Wai - bbanzzi(prod. Ian Purp)</em>
+                </a>
+            </li>
+            <li class="mytrack_list_item">
+                <div style="background-image: url(https://i1.sndcdn.com/artworks-000318400407-tqjoyb-t500x500.jpg)">
+                    <div class="track_tool_btn"></div>
+                    <ul class="track_tools">
+                        <li>
+                            <a href="#" class="item_edit_btn"></a>
+                        </li>
+                        <li>
+                            <a href="#" class="item_del_btn"></a>
+                        </li>
+                    </ul>
+                    <a class="play_trigger" data-tracknum="415468635">
+                        <img src="/static/img/assets/play.png" />
+                    </a>
+    
+                </div>
+                <a href="#해당 트랙 링크" target="_blank" class="track_title">
+                    <em>Kiss Kiss (BRLLNT Flip)</em>
+                </a>
+            </li>
+            <li class="mytrack_list_item">
+                <div style="background-image: url(https://i1.sndcdn.com/artworks-000296806512-2rg6tn-t500x500.jpg)">
+                    <div class="track_tool_btn"></div>
+                    <ul class="track_tools">
+                        <li>
+                            <a href="#" class="item_edit_btn"></a>
+                        </li>
+                        <li>
+                            <a href="#" class="item_del_btn"></a>
+                        </li>
+                    </ul>
+                    <a class="play_trigger" data-tracknum="393890400">
+                        <img src="/static/img/assets/play.png" />
+                    </a>
+    
+                </div>
+                <a href="#해당 트랙 링크" target="_blank" class="track_title">
+                    <em>죠지(George) - Boat (PARKM00NCHI Remix)</em>
+                </a>
+            </li>
+            <li class="mytrack_list_item">
+                <div style="background-image: url(https://i1.sndcdn.com/artworks-000247856794-zti2je-t500x500.jpg)">
+                    <div class="track_tool_btn"></div>
+                    <ul class="track_tools">
+                        <li>
+                            <a href="#" class="item_edit_btn"></a>
+                        </li>
+                        <li>
+                            <a href="#" class="item_del_btn"></a>
+                        </li>
+                    </ul>
+                    <a class="play_trigger" data-tracknum="347577241">
+                        <img src="/static/img/assets/play.png" />
+                    </a>
+    
+                </div>
+                <a href="#해당 트랙 링크" target="_blank" class="track_title">
+                    <em>Touch It</em>
+                </a>
+            </li>
+            <li class="mytrack_list_item">
+                <div style="background-image: url(https://i1.sndcdn.com/artworks-000204493872-qnzizv-t500x500.jpg)">
+                    <div class="track_tool_btn"></div>
+                    <ul class="track_tools">
+                        <li>
+                            <a href="#" class="item_edit_btn"></a>
+                        </li>
+                        <li>
+                            <a href="#" class="item_del_btn"></a>
+                        </li>
+                    </ul>
+                    <a class="play_trigger" data-tracknum="304330766">
+                        <img src="/static/img/assets/play.png" />
+                    </a>
+    
+                </div>
+                <a href="#해당 트랙 링크" target="_blank" class="track_title">
+                    <em>Chunky! by SUMIN, HORIM, Nahzam Sue</em>
+                </a>
+            </li>
+            <li class="mytrack_list_item">
+                <div style="background-image: url(https://i1.sndcdn.com/artworks-000204493872-qnzizv-t500x500.jpg)">
+                    <div class="track_tool_btn"></div>
+                    <ul class="track_tools">
+                        <li>
+                            <a href="#" class="item_edit_btn"></a>
+                        </li>
+                        <li>
+                            <a href="#" class="item_del_btn"></a>
+                        </li>
+                    </ul>
+                    <a class="play_trigger" data-tracknum="304330766">
+                        <img src="/static/img/assets/play.png" />
+                    </a>
+    
+                </div>
+                <a href="#해당 트랙 링크" target="_blank" class="track_title">
+                    <em>Chunky! by SUMIN, HORIM, Nahzam Sue</em>
+                </a>
+            </li>
+            <li class="mytrack_list_item">
+                <div style="background-image: url(https://i1.sndcdn.com/artworks-000204493872-qnzizv-t500x500.jpg)">
+                    <div class="track_tool_btn"></div>
+                    <ul class="track_tools">
+                        <li>
+                            <a href="#" class="item_edit_btn"></a>
+                        </li>
+                        <li>
+                            <a href="#" class="item_del_btn"></a>
+                        </li>
+                    </ul>
+                    <a class="play_trigger" data-tracknum="304330766">
+                        <img src="/static/img/assets/play.png" />
+                    </a>
+    
+                </div>
+                <a href="#해당 트랙 링크" target="_blank" class="track_title">
+                    <em>Chunky! by SUMIN, HORIM, Nahzam Sue</em>
+                </a>
+            </li>
+            <li class="mytrack_list_item">
+                <div style="background-image: url(https://i1.sndcdn.com/artworks-000204493872-qnzizv-t500x500.jpg)">
+                    <div class="track_tool_btn"></div>
+                    <ul class="track_tools">
+                        <li>
+                            <a href="#" class="item_edit_btn"></a>
+                        </li>
+                        <li>
+                            <a href="#" class="item_del_btn"></a>
+                        </li>
+                    </ul>
+                    <a class="play_trigger" data-tracknum="304330766">
+                        <img src="/static/img/assets/play.png" />
+                    </a>
+    
+                </div>
+                <a href="#해당 트랙 링크" target="_blank" class="track_title">
+                    <em>Chunky! by SUMIN, HORIM, Nahzam Sue</em>
+                </a>
+            </li>
+            <li class="mytrack_list_item">
+                <div style="background-image: url(https://i1.sndcdn.com/artworks-000204493872-qnzizv-t500x500.jpg)">
+                    <div class="track_tool_btn"></div>
+                    <ul class="track_tools">
+                        <li>
+                            <a href="#" class="item_edit_btn"></a>
+                        </li>
+                        <li>
+                            <a href="#" class="item_del_btn"></a>
+                        </li>
+                    </ul>
+                    <a class="play_trigger" data-tracknum="304330766">
+                        <img src="/static/img/assets/play.png" />
+                    </a>
+    
+                </div>
+                <a href="#해당 트랙 링크" target="_blank" class="track_title">
+                    <em>Chunky! by SUMIN, HORIM, Nahzam Sue</em>
+                </a>
+            </li>
+            <li class="mytrack_list_item">
+                <div style="background-image: url(https://i1.sndcdn.com/artworks-000204493872-qnzizv-t500x500.jpg)">
+                    <div class="track_tool_btn"></div>
+                    <ul class="track_tools">
+                        <li>
+                            <a href="#" class="item_edit_btn"></a>
+                        </li>
+                        <li>
+                            <a href="#" class="item_del_btn"></a>
+                        </li>
+                    </ul>
+                    <a class="play_trigger" data-tracknum="304330766">
+                        <img src="/static/img/assets/play.png" />
+                    </a>
+    
+                </div>
+                <a href="#해당 트랙 링크" target="_blank" class="track_title">
+                    <em>Chunky! by SUMIN, HORIM, Nahzam Sue</em>
+                </a>
+            </li>
+            <li class="mytrack_list_item">
+                <div style="background-image: url(https://i1.sndcdn.com/artworks-000204493872-qnzizv-t500x500.jpg)">
+                    <div class="track_tool_btn"></div>
+                    <ul class="track_tools">
+                        <li>
+                            <a href="#" class="item_edit_btn"></a>
+                        </li>
+                        <li>
+                            <a href="#" class="item_del_btn"></a>
+                        </li>
+                    </ul>
+                    <a class="play_trigger" data-tracknum="304330766">
+                        <img src="/static/img/assets/play.png" />
+                    </a>
+    
+                </div>
+                <a href="#해당 트랙 링크" target="_blank" class="track_title">
+                    <em>Chunky! by SUMIN, HORIM, Nahzam Sue</em>
+                </a>
+            </li>
+            <li class="mytrack_list_item">
+                <div style="background-image: url(https://i1.sndcdn.com/artworks-000204493872-qnzizv-t500x500.jpg)">
+                    <div class="track_tool_btn"></div>
+                    <ul class="track_tools">
+                        <li>
+                            <a href="#" class="item_edit_btn"></a>
+                        </li>
+                        <li>
+                            <a href="#" class="item_del_btn"></a>
+                        </li>
+                    </ul>
+                    <a class="play_trigger" data-tracknum="304330766">
+                        <img src="/static/img/assets/play.png" />
+                    </a>
+    
+                </div>
+                <a href="#해당 트랙 링크" target="_blank" class="track_title">
+                    <em>Chunky! by SUMIN, HORIM, Nahzam Sue</em>
+                </a>
+            </li>
+            <!-- /////////////////////////////////////////////////////////////////////////////////// -->
+        </ul>
+        <!-- 트랙이 있을때 끝-->
+        <!-- 트랙이 없을때 -->
+        <ul class="mytrack_list_empty" style="display: none;">
+            <li>
+                <h2>아직 등록된 트랙이 없네요.
+                    <br>지금 바로 트랙을 등록해 보세요!</h2>
+                <a href="#">트랙 등록하기</a>
+            </li>
+        </ul>
+        <!-- 트랙이 없을때 끝 -->
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta name="theme-color" content="#242425" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="DOPEHOTZ">
+    <title>{% block head_title %}{% endblock %}</title>
+    <link rel="icon" sizes="192x192" href="/icon.png" />
+    <link rel="apple-touch-icon" href="/icon.png">
+    <meta name="msapplication-TileImage" content="icon.png">
+    <meta name="msapplication-TileColor" content="#2F3BA2">
+    {% load staticfiles %}
+    <link href="{% static 'css/tower.css'%}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/tower_m.css'%}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/carousel_core.css'%}" rel="stylesheet" type="text/css" />
+    <link rel="manifest" href="/manifest.json">
+    <script src="//code.jquery.com/jquery-latest.min.js"></script>
+    {% block extra_head %}
+    {% endblock %}
+</head>
+
+<body style="padding-top:0;">
+  {% block body %}
+    <div class="header_index">
+        <div class="logo_area">
+            <a href="/"></a>
+        </div>
+    </div>
+    {% block content %}
+    {% endblock %}
+  {% endblock %}
+    <div id="footer">
+        <p>copyright© DOPEHOTZ. all right reserved.</p>
+    </div>
+    <script src="{% static 'js/mouse_wheel.js'%}"></script>
+    <script src="{% static 'js/carousel_core.js'%}"></script>
+    <script src="{% static 'js/main_carousel.js'%}"></script>
+</body>
+
+</html>

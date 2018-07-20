@@ -1,0 +1,156 @@
+{% extends "tower/base.html" %}
+{% block head_title %}DOPEHOTZ - 로그인{% endblock %}
+{% load socialaccount %}
+{% block content %}
+<div class="layout_body">
+    <!-- 트랙이 있을때 -->
+    <div class="sub_title" style="background-image: url(/static/img/sub_main/sub_main01.jpg)">
+        <div class="title_area">
+            <h2>YOUR DOPEHOTZ</h2>
+            <h1>DASHBOARD</h1>
+        </div>
+    </div>
+    <div class="content">
+        <div class="dashboard_layout_l">
+            <div class="dashboard_top_con">
+                <ul>
+                    <li>
+                        <h2>플레이</h2>
+                        <em>154754</em>
+                        <p>공유한 모든 트랙의 총 플레이 수</p>
+                    </li>
+                    <li>
+                        <h2>좋아요</h2>
+                        <em>8451</em>
+                        <p>공유한 모든 트랙의 총 좋아요 수</p>
+                    </li>
+                    <li>
+                        <h2>이야기</h2>
+                        <em>2654</em>
+                        <p>공유한 모든 트랙의 댓글 수</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="content_tile">
+                <h3 class="tile_title">가장 많은 좋아요 수</h3>
+                <ul class="dashboard_track_list">
+                    <li class="list_s_h">
+                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
+                        <a href="#트랙 디테일">
+                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
+                            <p class="subject_artist">OCT Official</p>
+                        </a>
+                        <p class="data_field"><span class="like"></span>3215</p>
+                        <div class="play_trigger" data-tracknum="275435386"></div>
+                    </li>
+                    <li class="list_s_h">
+                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
+                        <a href="#트랙 디테일">
+                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
+                            <p class="subject_artist">OCT Official</p>
+                        </a>
+                        <p class="data_field"><span class="like"></span>3215</p>
+                        <div class="play_trigger" data-tracknum="275435386"></div>
+                    </li>
+                    <li class="list_s_h">
+                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
+                        <a href="#트랙 디테일">
+                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
+                            <p class="subject_artist">OCT Official</p>
+                        </a>
+                        <p class="data_field"><span class="like"></span>3215</p>
+                        <div class="play_trigger" data-tracknum="275435386"></div>
+                    </li>
+                    <li class="list_s_h">
+                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
+                        <a href="#트랙 디테일">
+                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
+                            <p class="subject_artist">OCT Official</p>
+                        </a>
+                        <p class="data_field"><span class="like"></span>3215</p>
+                        <div class="play_trigger" data-tracknum="275435386"></div>
+                    </li>
+                    <li class="list_s_h">
+                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
+                        <a href="#트랙 디테일">
+                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
+                            <p class="subject_artist">OCT Official</p>
+                        </a>
+                        <p class="data_field"><span class="like"></span>3215</p>
+                        <div class="play_trigger" data-tracknum="275435386"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="content_tile">
+                    <h3 class="tile_title">가장 많은 재생수</h3>
+                <ul class="dashboard_track_list">
+                    <li class="list_s_h">
+                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
+                        <a href="#트랙 디테일">
+                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
+                            <p class="subject_artist">OCT Official</p>
+                        </a>
+                        <p class="data_field"><span class="played"></span>3215</p>
+                        <div class="play_trigger" data-tracknum="275435386"></div>
+                    </li>
+                    <li class="list_s_h">
+                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
+                        <a href="#트랙 디테일">
+                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
+                            <p class="subject_artist">OCT Official</p>
+                        </a>
+                        <p class="data_field"><span class="played"></span>3215</p>
+                        <div class="play_trigger" data-tracknum="275435386"></div>
+                    </li>
+                    <li class="list_s_h">
+                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
+                        <a href="#트랙 디테일">
+                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
+                            <p class="subject_artist">OCT Official</p>
+                        </a>
+                        <p class="data_field"><span class="played"></span>3215</p>
+                        <div class="play_trigger" data-tracknum="275435386"></div>
+                    </li>
+                    <li class="list_s_h">
+                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
+                        <a href="#트랙 디테일">
+                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
+                            <p class="subject_artist">OCT Official</p>
+                        </a>
+                        <p class="data_field"><span class="played"></span>3215</p>
+                        <div class="play_trigger" data-tracknum="275435386"></div>
+                    </li>
+                    <li class="list_s_h">
+                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
+                        <a href="#트랙 디테일">
+                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
+                            <p class="subject_artist">OCT Official</p>
+                        </a>
+                        <p class="data_field"><span class="played"></span>3215</p>
+                        <div class="play_trigger" data-tracknum="275435386"></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="dashboard_layout_r">
+                <div class="content_title_wrap">
+                        <h3>NOTICE</h3>
+                    </div>
+            <ul class="notice_list_wrap">
+                <li>
+                    <a href="#">
+                        <h4>저작권법 위반 없는 깨끗한 분위기 조성에 동참해 주세요.</h4>
+                        <p>타인의 곡을 도용하거나 공유해선 안되는 저작권을 가진 트랙 공유는 불법입니다.</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <h4>업데이트 2018/07/18</h4>
+                        <p>사운드 클라우드 프로필 연동이 시작되었습니다. 이제 사운드 클라우드 계정을 연동해 더 쉽게 트랙을 공유하세요!</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

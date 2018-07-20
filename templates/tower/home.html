@@ -1,8 +1,73 @@
-{% extends "tower/base.html" %}
+{% extends "tower/home_base.html" %}
 {% block head_title %}DOPEHOTZ - 로그인{% endblock %}
 {% load socialaccount %}
 {% block content %}
 <div id="container">
-    
+    <div class="main_contents">
+        <div class="main_slide">
+            <ul class="main_carousel">
+                <li>
+                    <div class="carousel_bg" style="background-image: url(/static/img/slide/slide02.jpg)"></div>
+                    <div class="carousel_content align_left">
+                        <div>
+                            <h3>Can be played everywhere.</h3>
+                            <h2>언제 어디에서나
+                                <br> 내 음악을 들려주세요.</h2>
+                            <p>카페엣서 혹은 매장에서 내 음악이 재생될 수 있습니다. 내 작업물을 공유하고 어디에서든 재생될 수 있게 하세요.</p>
+                            <div>
+                                <a href="/dashboard/">시작하기</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="carousel_bg" style="background-image: url(/static/img/slide/slide01.jpg)"></div>
+                    <div class="carousel_content align_left">
+                        <div>
+                            <h3>Release your work now.</h3>
+                            <h2>내 작업물을
+                                <br> 최초로 공개하세요.</h2>
+                            <p>혹시 정성스럽게 작업한 내 작업물이
+                                <br>클라우드에서 혹은 외장하드에서 잠자고 있지 않나요?
+                                <br>완성이 아니어도 좋습니다.
+                                <br>지금 바로 내 창작물을 공개하세요.
+                                <br>음악은 사람들이 들어줄 때 가장 빛이 납니다.</p>
+                                <div>
+                                    <a href="/dashboard/">시작하기</a>
+                                </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="carousel_bg" style="background-image: url(/static/img/slide/slide03.jpg)"></div>
+                    <div class="carousel_content align_left">
+                        <div>
+                            <h3>Share. And increase followers.</h3>
+                            <h2>작업물을 공유하고
+                                <br>팔로워를 늘려보세요.</h2>
+                            <p>카페엣서 혹은 매장에서 내 음악이 재생될 수 있습니다. 내 작업물을 공유하고 어디에서든 재생될 수 있게 하세요.</p>
+                            <div>
+                                <a href="/dashboard/">시작하기</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="carousel_bg" style="background-image: url(/static/img/slide/slide04.jpg)"></div>
+                    <div class="carousel_content align_left">
+                        <div>
+                            <h3>Communicate with listeners.</h3>
+                            <h2>내 음악을 듣는
+                                <br> 리스너와 소통하세요.</h2>
+                            <p>내 하드디스크, 노트북, 클라우드에서 혹은 외장하드에서 잠자고 있는 내 창작물을 지금 공개해 보세요. 당신이 누구라도 상관 없습니다.</p>
+                            <div>
+                                <a href="/dashboard/">시작하기</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -4,9 +4,11 @@
 	<title></title>
 </head>
 <body>
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/base.js' %}"></script>
 <script type="text/javascript">
-	localStorage.setItem('user', /access_token=(.*)&?/.exec(location.href)[1]);
-	//self.close();
+	var access_token = getQueryStringData('access_token');
+	location.href = '/sc-register/'+access_token+'/';
 </script>
 </body>
 </html>
