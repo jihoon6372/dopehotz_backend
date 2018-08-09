@@ -11,17 +11,57 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import json
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-from .settings_secret import *
+secret_file = os.path.join(BASE_DIR, './env/secret.json')
+
+with open(secret_file, 'r') as f:
+    secret = json.loads(f.read())
+
+def get_secret(setting, secret=secret):
+    try:
+        return secret[setting]
+    except:
+        msg = "Set key '{0}' in secret.json".format(setting)
+        raise ImproperlyConfigured(msg)
+
+
+
+#SECRET_KEY = 'lrc-ek4#y0bxge^dj^8vrp0mb6^5m+!2koz$gj1=d#chb#e@52'
+SECRET_KEY = get_secret('SECRET_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = get_secret('DEBUG')
+
+ALLOWED_HOSTS = get_secret('ALLOWED_HOSTS')
+INTERNAL_IPS = get_secret('INTERNAL_IPS')
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': get_secret('DB_DATABASE'),
+        'USER': get_secret('DB_USER'),
+        'PASSWORD': get_secret('DB_PASSWORD'),
+        'HOST': get_secret('DB_HOST'),
+        'PORT' : '3306',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
+        'TEST': {
+            'CHARSET': 'utf8',
+            'COLLATION': 'utf8_unicode_ci',
+        }
+    }
+}
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -187,3 +227,4 @@ LOGIN_REDIRECT_URL = '/get-user-token/'
 
 
 # ACCOUNT_ADAPTER = 'accounts.models.MyAccountAdapter'
+HOME_URL = get_secret('HOME_URL')
