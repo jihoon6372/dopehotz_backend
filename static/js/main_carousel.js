@@ -1,6 +1,3 @@
-
-
-
 // var slideHeight = $(document).height();
 // var slideWidth = $(document).width();
 
@@ -21,4 +18,25 @@ main_carousel.on('mousewheel', '.owl-stage', function (e) {
         main_carousel.trigger('next.owl');
     }
     e.preventDefault();
+});
+
+var track_select = $(".post_carousel");
+
+track_select.owlCarousel({
+    margin:50,
+    loop:false,
+    autoWidth:true,
+    items:1,
+    center:true,
+	autoplay:false,
+    URLhashListener:false,
+    nav: true,
+});
+
+$(".prev_select").click(function () {
+    track_select.trigger('prev.owl.carousel');
+});
+
+$(".next_select").click(function () {
+    track_select.trigger('next.owl.carousel');
 });
