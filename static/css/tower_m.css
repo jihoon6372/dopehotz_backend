@@ -1,0 +1,154 @@
+@media only screen and (max-width: 1120px) {
+    #header {
+        display: none;
+    }
+    #header_m {
+        display: block;
+    }
+    .mytrack_list_item {
+        width: 33.33%;
+    }
+    .layout_menu {
+        width: 240px;
+        left: -320px;
+        z-index: 9;
+        padding-top: 40px;
+    }
+    .layout_body {
+        padding: 0;
+    }
+    .menu_btn_m {
+        display: block;
+    }
+    .track_filter_wrap {
+        padding: 14px 14px 0;
+    }
+    .track_filter_wrap ul {
+        margin-bottom: 14px;
+        margin-bottom: 10px;
+    }
+    .mytrack_list {
+        padding: 0 7px;
+    }
+    body {
+        padding-top: 40px;
+    }
+    .title_area {
+        padding:60px 14px 14px;
+    }
+    .title_area h1 {
+        font-size: 20px;
+    }
+    .title_area h1 span {
+        font-size: 20px;
+    }
+    .title_area h2 {
+        font-size: 12px;
+    }
+    .track_filter_wrap ul li a {
+        font-size: 12px;
+        line-height: 30px;
+    }
+    .track_title > em {
+        font-size: 13px;
+    }
+    .close-float-player {
+        width: 100%;
+    }
+    .track_tool_btn {
+        display: block;
+    }
+    .content_title_wrap {
+        padding: 14px 14px 0;
+    }
+    .content_title_wrap h3 {
+        font-size: 12px;
+        line-height: 30px;
+        margin-bottom: 10px;
+    }
+    .innercontent_layout_l {
+        padding: 0;
+    }
+    .innercontent_layout_r {
+        position: relative;
+        top: auto;
+        right: auto;
+        max-width: 100%;;
+    }
+    .content_item {
+        padding: 0 14px;
+    }
+
+    .notice_list_wrap {
+        padding: 0 14px;
+    }
+
+    .content_tile {
+        margin: 0 14px;
+        margin-bottom: 14px;
+    }
+
+    .input_form {
+        padding: 0 14px 14px;
+    }
+
+    .dashboard_top_con ul{
+        padding: 14px 14px 0;
+        margin-bottom: 14px;
+    }
+
+    .post_carousel_wrap {
+        height: calc(100vh - 60px);
+    }
+    .track_item_preview {
+        padding: 0 14px 40px;
+    }
+    .profile_card {
+        margin: 0 14px 14px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .mytrack_list_item {
+        width: 50%;
+    }
+
+    .dashboard_top_con ul{
+        display: block;
+    }
+
+    .dashboard_top_con ul li {
+        width: 100%;
+        margin-bottom: 14px;
+    }
+    .post_ready h2 {
+        font-size: 20px;
+    }
+    .carousel_content > div {
+        width: 90%;
+    }
+    .carousel_content h3 {
+        font-size: 16px;
+        margin-bottom: 6px;
+    }
+    .carousel_content h2 {
+        font-size: 28px;
+        line-height: 34px;
+    }
+    .carousel_content p {
+        font-size: 15px;
+    }
+    .carousel_content div a {
+        width: 110px;
+        line-height: 40px;
+        font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+
+}
+
+@media only screen and (max-width: 320px) {
+
+}

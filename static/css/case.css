@@ -1,0 +1,247 @@
+@media only screen and (max-width: 1120px) {
+    body {
+        padding: 40px 0 80px 0;
+    }
+    .page_container {
+        width: 100%;
+        margin: 0px;
+    }
+    #inner_body {
+        position: relative;
+        padding-bottom: 20px;
+    }
+    #header {
+        display: none;
+    }
+    #header_m {
+        display: block;
+    }
+    .floating_player {
+        height: 60px;
+    }
+    .float_player_artwork {
+        width: 60px;
+        height: 60px;
+    }
+    .prev_btn {
+        height: 60px;
+        width: 30px;
+        background-size: 15px;
+    }
+    .play_btn {
+        height: 60px;
+        width: 30px;
+        background-size: 20px;
+    }
+    .next_btn {
+        height: 60px;
+        width: 30px;
+        background-size: 15px;
+    }
+    .close_btn {
+        height: 60px;
+        width: 40px;
+        background-size: 10px;
+    }
+    .sub_title {
+        font-size: 18px;
+    }
+    .main_carousel {
+        height: 300px;
+    }
+    .n_stage_week {
+        font-size: 12px;
+    }
+    .openmic_con_wrap ul li {
+        width: 50%;
+    }
+    .comnt_item_text span {
+        display: block;
+    }
+    .this_artist_track {
+        width: 160px;
+        padding-right: 0px;
+    }
+    .openmic_con_wrap_detail>ul>li {
+        width: 50%;
+    }
+    .profile_list>ul>li {
+        width: 50%;
+    }
+    /* 플레이어 컨트롤 */
+    .float_info {
+        padding-right: 135px;
+    }
+    .sub_repeat_btn,
+    .bottom_prev,
+    .sub_shuffle_btn {
+        display: none;
+    }
+    .controls {
+        position: absolute;
+        right: 50px;
+        width: auto;
+    }
+    .openmic_con_wrap_detail>ul {
+        padding: 5px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .profile_wrap {
+        padding: 20px;
+        padding-top: 50px;
+    }
+    .profile_card {
+        display: none;
+    }
+    .delete_acc {
+        padding: 0 20px;
+        box-sizing: border-box;
+        padding-bottom: 50px;
+    }
+    .modify_form {
+        padding: 14px 10px 18px;
+        margin-bottom: 20px;
+    }
+    .modify_form_wrap h5 {
+        padding: 0 10px;
+    }
+    .modify_form_wrap>h4 {
+        position: relative;
+        padding-left: 10px;
+    }
+    .modify_form_wrap h4 button {
+        width: 60px;
+        height: 50px;
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        border: none;
+        border-radius: 0;
+        background-color: #FF3636;
+        color: #fff;
+        box-sizing: border-box;
+    }
+    .profile_list>ul>li {
+        width: 50%;
+    }
+    .post_layout {
+        padding-left: 10px;
+        padding-top: 0;
+        padding-right: 10px;
+    }
+    .selected_track {
+        display: none;
+    }
+    .post_form {
+        padding: 14px 10px 18px;
+    }
+    .post_form_wrap>h5 {
+        padding: 0 10px;
+    }
+    .post_form_wrap h4 {
+        padding-left: 10px;
+        position: relative;
+    }
+    .post_form_wrap h4 button {
+        width: 60px;
+        height: 50px;
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        border: none;
+        border-radius: 0;
+        background-color: #FF3636;
+        color: #fff;
+        box-sizing: border-box;
+    }
+    .post_form_wrap>ul {
+        padding: 10px 10px 5px 10px;
+    }
+    .main_middle_column {
+        width: 100%;
+    }
+    .onstage_con_wrap {
+        margin-bottom: 0;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .openmic_con_wrap ul li {
+        width: 100%;
+    }
+    .profile_wrap {
+        padding: 0px;
+        padding-top: 0px;
+        padding-left: 0px;
+    }
+    .profile_list>ul>li {
+        width: 50%;
+    }
+
+    .card_info {
+        background-color: #1a1a1a;
+    }
+
+    .profile_body h5 {
+
+        color: #fff;
+        font-size: 18px;
+        padding: 0px 20px 10px 20px;
+        display: block;
+        width: 1100px;
+        margin: 0 auto;
+        font-weight: 400;
+        box-sizing: border-box;
+        position: relative;
+        background-color: transparent;
+        height: auto;
+        line-height: 27px;
+    }
+    .profile_list {
+        background-color: transparent;
+        padding-top: 0;
+    }
+    .search_wrap input[type=search] {
+        font-size: 30px;
+    }
+    .post_layout {
+        padding: 0;
+    }
+    .login_inner {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        text-align: center;
+        padding: 10px 0;
+        box-sizing: border-box;
+        border-radius: 10px;
+        box-shadow: none;
+    }
+    .login_wrap {
+        width: 100%;
+        position: relative;
+        top: 50%;
+        left: 0;
+        transform: translateY(0);
+        padding: 20px;
+        box-sizing: border-box;
+    }
+}
+
+@media only screen and (max-width: 470px) {
+    .profile_list>ul>li {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    .openmic_con_wrap_detail>ul>li {
+        width: 100%;
+    }
+}
