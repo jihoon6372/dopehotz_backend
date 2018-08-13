@@ -22,7 +22,7 @@
                     </div>
                     <div class="input_form">
                         <label for="nick">닉네임</label>
-                        <input type="text" id="nick" name="name" value="Travis Scott" onKeyUp="document.getElementById('pre_name').innerHTML=this.value">
+                        <input type="text" id="nick" name="name" value="{{ user }}" onKeyUp="document.getElementById('pre_name').innerHTML=this.value">
                     </div>
                     <div class="input_form">
                         <label for="crew">소속 또는 활동하는 크루</label>
@@ -43,11 +43,11 @@
                     </div>
                     <div class="input_form">
                         <label for="thxdope">좋아요 감사 메시지</label>
-                        <input type="text" id="thxdope" name="thxdope" value="렛츠기릿! 감사합니다.">
+                        <input type="text" id="thxdope" name="thxdope" value="{{ user.profile.likes_greeting }}">
                     </div>
                     <div class="input_form">
                         <label for="thxplay">플레이 감사 메시지</label>
-                        <input type="text" id="thxplay" name="thxclip" value="제 노래 많이 들어주세요! 털ㄴ업">
+                        <input type="text" id="thxplay" name="thxclip" value="{{ user.profile.clips_greeting }}">
                     </div>
                 </div>
                 <div class="content_tile">
@@ -56,12 +56,12 @@
                     </div>
                     <div class="input_form">
                         <label for="tracktag">사운드 클라우드 ID</label>
-                        <input type="text" id="sndcleid" name="sndcleid" value="biggerbig" disabled="">
+                        <input type="text" id="sndcleid" name="sndcleid" value="{{ user.profile.soundcloud_id }}" disabled="">
                         <a class="conect_snd">계정 새로고침</a>
                     </div>
                     <div class="input_form">
                         <label for="tracktag">로그인 계정(ID)</label>
-                        <input type="text" id="naverid" name="naverid" value="네이버(cyh21050)" disabled="">
+                        <input type="text" id="naverid" name="naverid" value="{{ user.get_provider }} (cyh21050)" disabled="">
                     </div>
                 </div>
                 <div class="content_tile">
