@@ -1,3 +1,6 @@
+
+
+
 // var slideHeight = $(document).height();
 // var slideWidth = $(document).width();
 
