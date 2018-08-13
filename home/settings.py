@@ -228,3 +228,5 @@ LOGIN_REDIRECT_URL = '/get-user-token/'
 
 # ACCOUNT_ADAPTER = 'accounts.models.MyAccountAdapter'
 HOME_URL = get_secret('HOME_URL')
+CORS_ORIGIN_WHITELIST = get_secret('CORS_ORIGIN_WHITELIST')
+CORS_ORIGIN_ALLOW_ALL = get_secret('CORS_ORIGIN_ALLOW_ALL')
