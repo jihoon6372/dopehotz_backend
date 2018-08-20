@@ -1,18 +1,23 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 from accounts.forms import ProfileForm
+
 
 def index(request):
     return render(request, 'tower/home.html', {})
 
-
+@login_required
 def mytracks(request):
     return render(request, 'tower/mytracks.html', {})
 
 
+@login_required
 def post(request):
     return render(request, 'tower/post.html', {})
 
+
+@login_required
 def profile(request):
     if request.method == "POST":
         form = ProfileForm(request.POST)        
@@ -35,11 +40,14 @@ def profile(request):
     return render(request, 'tower/profile.html', {'form': form})
 
 
+@login_required
 def dashboard(request):
     return render(request, 'tower/dashboard.html', {})
 
+@login_required
 def post_select(request):
     return render(request, 'tower/select.html', {})
 
+@login_required
 def post_new(request):
     return render(request, 'tower/new.html', {})
