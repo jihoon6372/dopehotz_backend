@@ -7,7 +7,7 @@ urlpatterns = [
     path('', index, name='index'),
     path('mytracks/', mytracks),
     path('post/', post),
-    path('profile/', profile),
+    path('profile/', profile, name='profile'),
     path('dashboard/', dashboard),
     path('post/select/', post_select),
     path('post/new/', post_new),
