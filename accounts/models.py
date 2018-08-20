@@ -19,6 +19,7 @@ class User(get_user_model()):
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
+    nickname = models.CharField('닉네임', max_length=20, blank=True)
     soundcloud_url = models.CharField('사운드클라우드 URL', max_length=255, blank=True)
     profile_picture = models.CharField('프로필 이미지 URL', max_length=255, blank=True)
     greeting = models.TextField('인사말', blank=True)
@@ -26,6 +27,8 @@ class Profile(models.Model):
     clips_greeting = models.TextField('구독 인사말', blank=True)
     soundcloud_id = models.IntegerField(default=False, blank=True, verbose_name='사운드클라우드 아이디')
     mailing_agree = models.BooleanField('메일 수신여부', default=False, help_text='광고성 메일 수신 동의 여부')
+    crew = models.CharField('소속', max_length=100, blank=True)
+    location = models.CharField('활동지역', max_length=100, blank=True)
 
     class Meta:
         verbose_name = 'profile'
