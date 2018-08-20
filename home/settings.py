@@ -224,6 +224,7 @@ ACCOUNT_EMAIL_REQUIRED = False
 
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/get-user-token/'
+LOGIN_URL = get_secret('LOGIN_URL')
 
 
 # ACCOUNT_ADAPTER = 'accounts.models.MyAccountAdapter'
