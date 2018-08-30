@@ -106,6 +106,42 @@
     .profile_card {
         margin: 0 14px 14px;
     }
+    .sign_img_wrap {
+        height: calc(100vh - 60px);
+    }
+    .sign_img_wrap img {
+        width: 20%;
+    }
+    .sign_menu_cover {
+        background-color: transparent;
+        width: 100%;
+    }
+    .sign_body_cover {
+        background-color: rgba(0,0,0,0.7);
+    }
+    .sign_img_wrap_inner {
+        -webkit-animation: bgMove 30s linear;
+        animation: bgMove 30s linear;
+    }
+    @-webkit-keyframes bgMove {
+        0% {
+            margin-top: 0px;
+        }
+    
+        100% {
+            margin-top: -100%;
+        }
+    }
+    
+    @keyframes bgMove {
+        0% {
+            margin-top: 0px;
+        }
+    
+        100% {
+            margin-top: -100%;
+        }
+    }
 }
 
 @media only screen and (max-width: 768px) {
@@ -142,6 +178,9 @@
         width: 110px;
         line-height: 40px;
         font-size: 14px;
+    }
+    .sign_img_wrap img {
+        width: 25%;
     }
 }
 
