@@ -14,6 +14,8 @@ import json
 
 
 def index(request):
+    request.session['next'] = request.GET.get('next', None)
+    
     return render(request, 'home.html', {'HOME_URL': settings.HOME_URL})
 
 
