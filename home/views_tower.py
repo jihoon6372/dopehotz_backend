@@ -51,3 +51,7 @@ def post_select(request):
 @login_required
 def post_new(request):
     return render(request, 'tower/new.html', {})
+
+@login_required
+def connect(request):
+    return render(request, 'tower/connect.html', {})
