@@ -64,7 +64,7 @@
                         <div class="input_form">
                             <label for="tracktag">로그인 계정(ID)</label>
                             {% for account in user.socialaccount_set.all %}
-                            <input type="text" id="naverid" name="naverid" value="{{ account.provider|upper }}&nbsp;({{ account.extra_data.email }})" disabled="">
+                            <input type="text" id="naverid" name="naverid" value="{{ account.provider|upper }}" disabled="">
                             {% endfor %}
                         </div>
                     </div>
