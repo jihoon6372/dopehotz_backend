@@ -58,4 +58,4 @@ def soundcloud_register(request, access_token):
     profile.profile_picture = user_data['avatar_url']
     profile.save()
 
-    return HttpResponse(access_token)
+    return render(request, 'soundcloud_register.html')
