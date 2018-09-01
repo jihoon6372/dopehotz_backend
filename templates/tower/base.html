@@ -18,6 +18,7 @@
     <link href="{% static 'css/carousel_core.css'%}" rel="stylesheet" type="text/css" />
     <link rel="manifest" href="/manifest.json">
     <script src="//code.jquery.com/jquery-latest.min.js"></script>
+    <script src="{% static 'js/vue.js' %}"></script>
     {% block extra_head %}
     {% endblock %}
 </head>
@@ -124,7 +125,7 @@
         <h2 class="menu_title">ARTIST</h2>
         <ul class="main_menu">
             <li>
-                <a>biggerbig<span style="background-image: url(https://i1.sndcdn.com/avatars-000373951292-8gef60-t500x500.jpg)"></span></a>
+                <a>{{ user.profile.nickname }}<span style="background-image: url({{ user.profile.profile_picture }})"></span></a>
             </li>
             
             <li>
