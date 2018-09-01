@@ -2,13 +2,13 @@
 {% block head_title %}DOPEHOTZ - 로그인{% endblock %}
 {% load socialaccount %}
 {% block content %}
-<div class="layout_body">
+<div class="layout_body" id="app1">
     <div class="sign_body_cover"></div>
     <div class="sign_menu_cover">
         <div class="sign_logo" style="background-image: url(/static/img/logo.png)"></div>
         <em>TOWER <strong>DOPEHOTZ</strong></em>
         <p>뮤지션 타워에 오신것을 환영합니다!<br>지금 <span style="color:#FD341C">사운드클라우드</span>와 연동해서 내 음악을 공개하고<br>도파츠의 뮤지션들과 함께 하세요!</p>
-        <a><span></span> 사운드클라우드 계정 연동하기</a>
+        <a v-on:click="sc_login"><span></span> 사운드클라우드 계정 연동하기</a>
     </div>
     <div class="sign_img_wrap">
         <div class="sign_img_wrap_inner">
@@ -261,4 +261,27 @@
         </div>
     </div>
 </div>
+
+<script src="https://connect.soundcloud.com/sdk/sdk-3.3.0.js"></script>
+<script>
+var vm = new Vue({
+    el: "#app1",
+    data: {
+
+    },
+    methods: {
+        sc_login: function(){
+            SC.initialize({
+                client_id: '7c76b10fd87a3f9cf91d51b9f8cf069c',
+                redirect_uri: 'https://auth.dopehotz.com/callback/',
+            });
+            SC.connect().then(function() {
+                return SC.get('/me');
+            }).then(function(me) {
+                alert('Hello, ' + me.username);
+            });
+        }
+    }
+});
+</script>
 {% endblock %}
