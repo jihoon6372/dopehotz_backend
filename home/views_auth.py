@@ -44,10 +44,18 @@ def get_user_token(request):
     return redirect(settings.HOME_URL+'/#token='+token)
 
 def callback_comp(request):
-    print(request.__dict__)
     return render(request, 'callback_comp.html')
 
 
 def soundcloud_register(request, access_token):
-    
+    url = 'https://api.soundcloud.com/me?oauth_token='+access_token
+    sc_data = requests.get(url)
+    user_data = json.loads(sc_data.content)
+
+    profile = request.user.profile
+    profile.soundcloud_id = user_data['id']
+    profile.soundcloud_url = user_data['permalink_url']
+    profile.profile_picture = user_data['avatar_url']
+    profile.save()
+
     return HttpResponse(access_token)
