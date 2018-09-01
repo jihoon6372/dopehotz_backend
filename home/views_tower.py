@@ -42,6 +42,9 @@ def profile(request):
 
 @login_required
 def dashboard(request):
+    if 0 is request.user.profile.soundcloud_id:
+        return redirect('//auth.dopehotz.com/connect/')
+    
     return render(request, 'tower/dashboard.html', {})
 
 @login_required
@@ -54,4 +57,7 @@ def post_new(request):
 
 @login_required
 def connect(request):
+    if 0 is not request.user.profile.soundcloud_id:
+        return redirect('//tower.dopehotz.com/dashboard/')
+
     return render(request, 'tower/connect.html', {})
