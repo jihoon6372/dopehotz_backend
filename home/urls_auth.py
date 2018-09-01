@@ -3,6 +3,7 @@ from django.conf import settings
 
 from .views_auth import FacebookLogin, NaverLogin, KakaoLogin
 from .views_auth import index, LogoutView, get_user_token, callback_comp, soundcloud_register
+from .views_tower import connect
 from accounts.views import login_cancelled
 
 urlpatterns = [
@@ -22,6 +23,7 @@ urlpatterns = [
 
     path('callback/', callback_comp),
     path('sc-register/<access_token>/', soundcloud_register),
+    path('connect/', connect),
 ]
 
 if settings.DEBUG:
