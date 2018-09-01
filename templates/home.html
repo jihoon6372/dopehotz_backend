@@ -10,7 +10,6 @@
             <p>#새로운_발견 #무한한_영감
                 <br>도파츠와 함께 하세요.</p>
             <ul>
-                <li><a class="soundcloud_login" v-on:click="soundcloud_connect">사운드클라우드 로그인</a></li>
                 <li><a class="kakao_login" href="{% provider_login_url "kakao" %}">카카오 로그인</a></li>
                 <li><a class="naver_login" href="{% provider_login_url "naver" %}">네이버 로그인</a></li>
                 <li><a class="facebook_login" href="{% provider_login_url "facebook" %}">페이스북 로그인</a></li>
@@ -24,42 +23,4 @@
         </div>
     </div>
 </div>
-<script src="https://connect.soundcloud.com/sdk/sdk-3.3.0.js"></script>
-<script>
-SC.initialize({
-	client_id: '7c76b10fd87a3f9cf91d51b9f8cf069c',
-	redirect_uri: 'https://auth.dopehotz.com/callback/',
-});
-function soundcloud_login(){
-    SC.connect().then(function() {
-        return SC.get('/me');
-    }).then(function(me) {
-        alert('Hello, ' + me.username);
-    });
-}
-
-var vm1 = new Vue({
-    el: "#container",
-    data: {
-
-    },
-    methods: {
-        soundcloud_connect: function(){
-            console.log('test2_ok')
-            SC.initialize({
-                client_id: '7c76b10fd87a3f9cf91d51b9f8cf069c',
-                redirect_uri: 'https://auth.dopehotz.com/callback/',
-            });
-            SC.connect().then(function() {
-                return SC.get('/me');
-            }).then(function(me) {
-                alert('Hello, ' + me.username);
-            });
-        }
-    },
-    mounted: function(){
-        console.log('test_ok')
-    }
-});
-</script>
 {% endblock %}
