@@ -11,7 +11,7 @@ urlpatterns = [
     path('dashboard/', dashboard),
     path('post/select/', post_select),
     path('post/new/', post_new),
-    path('connect/', connect),
+    # path('connect/', connect, name='sc_connect'),
 ]
 
 if settings.DEBUG:
