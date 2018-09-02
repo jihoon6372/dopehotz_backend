@@ -19,6 +19,7 @@
     <link rel="manifest" href="/manifest.json">
     <script src="//code.jquery.com/jquery-latest.min.js"></script>
     <script src="{% static 'js/vue.js' %}"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     {% block extra_head %}
     {% endblock %}
 </head>
@@ -150,6 +151,9 @@
     <script src="{% static 'js/preview.js'%}"></script>
     <script src="{% static 'js/common.js'%}"></script>
     <script src="{% static 'js/taginput.js'%}"></script>
+    <script>
+        var j_token = '{{ request.session.JWP_TOKEN }}';
+    </script>
 </body>
 
 </html>
