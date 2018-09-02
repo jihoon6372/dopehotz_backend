@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 from accounts.forms import ProfileForm
 
+import requests
+import json
 
 def index(request):
     return render(request, 'tower/home.html', {})
@@ -49,7 +52,13 @@ def dashboard(request):
 
 @login_required
 def post_select(request):
-    return render(request, 'tower/select.html', {})
+    datas = requests.get('http://api.soundcloud.com/users/'+str(request.user.profile.soundcloud_id)+'/tracks/?client_id='+settings.SOCIAL_AUTH_SOUNDCLOUD_KEY)
+    post_list = []
+
+    if datas.content:
+        post_list = json.loads(datas.content)
+
+    return render(request, 'tower/select.html', {'post_list': post_list})
 
 @login_required
 def post_new(request):
