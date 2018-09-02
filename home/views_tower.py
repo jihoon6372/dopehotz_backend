@@ -26,8 +26,6 @@ def profile(request):
         form = ProfileForm(request.POST)        
 
         if form.is_valid():
-            print(form.cleaned_data)
-            
             profile = request.user.profile
             profile.likes_greeting = form.cleaned_data['likes_greeting']
             profile.clips_greeting = form.cleaned_data['clips_greeting']
