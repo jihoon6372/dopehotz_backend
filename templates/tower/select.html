@@ -2,17 +2,25 @@
 {% block head_title %}DOPEHOTZ - 로그인{% endblock %}
 {% load socialaccount %}
 {% block content %}
-<div class="layout_body">
+<div class="layout_body" id="app1">
     <div class="content">
         <div class="post_carousel_wrap">
             <h2>공개할 트랙을 선택해 주세요.</h2>
             <ul class="post_carousel">
+
+                {% for post in post_list %}
                 <li class="post_track_con" data-hash="1">
+                    <a href="'#'"><img src="{{ post.user.avatar_url }}"></a>
+                    <p>{{ post.title }}</p>
+                    <a href="/post/new/" class="select_post_btn">선택</a>
+                </li>
+                {% endfor %}
+
+                <!-- <li class="post_track_con">
                     <a href="#1"><img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg"></a>
                     <p>Kamikaze (Feat. Wella Rhogus)</p>
                     <a href="/post/new/" class="select_post_btn">선택</a>
                 </li>
-                <!-- ---------------------------------------------------------- -->
                 <li class="post_track_con" data-hash="2">
                     <a href="#2"><img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg"></a>
                     <p>Kamikaze (Feat. Wella Rhogus)</p>
@@ -22,12 +30,33 @@
                     <a href="#3"><img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg"></a>
                     <p>Kamikaze (Feat. Wella Rhogus)</p>
                     <a href="/post/new/" class="select_post_btn">선택</a>
-                </li>
-                <!-- ---------------------------------------------------------- -->
+                </li> -->
+                
             </ul>
             <div class="prev_select select_arrow"></div>
             <div class="next_select select_arrow"></div>
         </div>
     </div>
 </div>
+
+<script>
+var vm1 = new Vue({
+    delimiters: ['##', '##'],
+    el: "#app1",
+    data: {
+        post_list: []
+    },
+    methods: {
+
+    },
+    mounted: function() {
+        axios.get('http://api.soundcloud.com/users/{{ soundcloud_id }}/tracks/?client_id={{ client_id }}')
+        .then((result) => {
+            this.post_list = result.data;
+        });
+    },
+})
+
+
+</script>
 {% endblock %}
