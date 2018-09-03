@@ -35,6 +35,9 @@ class Track(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     duration = models.IntegerField(default=0, verbose_name='곡 길이')
     api = models.ForeignKey(TrackApiList, on_delete=models.CASCADE, related_name='api')
+    is_public = models.BooleanField(default=False, verbose_name='상업적 공개여부')
+    is_distribute = models.BooleanField(default=False, verbose_name='수정 및 배포여부')
+
     
 
     class Meta:
