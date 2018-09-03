@@ -59,8 +59,18 @@ def post_select(request):
     return render(request, 'tower/select.html', {'post_list': post_list})
 
 @login_required
-def post_new(request):
-    return render(request, 'tower/new.html', {})
+def post_new(request, track_id):
+    data = requests.get('http://api.soundcloud.com/tracks/'+str(track_id)+'/?client_id='+settings.SOCIAL_AUTH_SOUNDCLOUD_KEY)
+
+    if data.content:
+        track_data = json.loads(data.content)
+        
+        if None is track_data['artwork_url']:
+            track_image = track_data['user']['avatar_url']
+        else:
+            track_image = track_data['artwork_url']
+
+    return render(request, 'tower/new.html', {'track_data': track_data, 'track_image': track_image})
 
 @login_required
 def connect(request):
