@@ -10,7 +10,7 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('dashboard/', dashboard),
     path('post/select/', post_select),
-    path('post/new/', post_new),
+    path('post/new/<int:track_id>/', post_new),
     # path('connect/', connect, name='sc_connect'),
 ]
 
