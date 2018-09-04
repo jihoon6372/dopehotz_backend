@@ -8,6 +8,7 @@ from providers.naver.views import NaverOAuth2Adapter
 from providers.kakao.views import KakaoOAuth2Adapter
 from allauth.socialaccount.models import SocialAccount, SocialToken
 from django.conf import settings
+from accounts.models import SoundcloudInfo
 
 import requests
 import json
@@ -51,6 +52,15 @@ def soundcloud_register(request, access_token):
     url = 'https://api.soundcloud.com/me?oauth_token='+access_token
     sc_data = requests.get(url)
     user_data = json.loads(sc_data.content)
+
+    try:
+        soundcloud_info = request.user.soundcloudinfo
+    except:
+        soundcloud_info = SoundcloudInfo()
+        soundcloud_info.user = request.user
+
+    soundcloud_info.token = access_token
+    soundcloud_info.save()
 
     profile = request.user.profile
     profile.soundcloud_id = user_data['id']
