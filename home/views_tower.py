@@ -80,7 +80,7 @@ def post_new(request, track_id):
         else:
             track_image = track_data['artwork_url']
 
-    return render(request, 'tower/new.html', {'track_data': track_data, 'track_image': track_image})
+    return render(request, 'tower/new.html', {'track_data': track_data, 'track_image': track_image, 'track_id': track_id})
 
 @login_required
 def connect(request):
