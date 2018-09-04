@@ -25,7 +25,7 @@ class TrackViewSet(viewsets.ModelViewSet):
     queryset = Track.objects.prefetch_related(Prefetch('comment', queryset=TrackComment.objects.filter(parent=None)), 'comment__user__profile', 'comment__children__user__profile', 'like').select_related('user__profile').filter(is_deleted=False)
 
     def create(self, request, *args, **kwargs):
-        track_type = request.data.get('type', '')
+        track_type = request.data.get('track_type', '')
         
         if not track_type:
             return Response({'track_type' : ['이 필드는 필수 항목입니다.']}, status=status.HTTP_400_BAD_REQUEST)        
@@ -42,7 +42,8 @@ class TrackViewSet(viewsets.ModelViewSet):
             raise InvalidAPIQuery('지원하지 않는 타입입니다.')
 
         
-        return Response(data)
+        # return Response(data)
+        return data
         
 
     def update(self, request, *args, **kwargs):
@@ -92,8 +93,8 @@ class TrackViewSet(viewsets.ModelViewSet):
         
         # 트랙 입력 체크
         if 'track_id' not in request.data:
-            return Response({'track_id' : ['이 필드는 필수 항목입니다.']}, status=status.HTTP_400_BAD_REQUEST)        
-
+            return Response({'track_id' : ['이 필드는 필수 항목입니다.']}, status=status.HTTP_400_BAD_REQUEST)   
+        
         # 사운드클라우드 트랙 데이터 가져오기
         # sc_data = requests.get('http://api.soundcloud.com/tracks/'+request.data['track_id']+'?client_id='+settings.SOCIAL_AUTH_SOUNDCLOUD_KEY).json()
         sc_data = soundcloud_track_data(request.data['track_id'])
@@ -123,11 +124,11 @@ class TrackViewSet(viewsets.ModelViewSet):
             download_url = download_url,
             waveform_url = waveform_url,
             duration = duration,
-            api = 1
+            api_id = 1
         )
 
-        # return Response(serializer.data)
-        return serializer.data
+        return Response(serializer.data)
+        # return serializer.data
 
 
 # 트랙 댓글 버전관리 상속용 뷰셋
