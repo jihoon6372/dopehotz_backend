@@ -114,7 +114,9 @@ class TrackSerializer(TrackSerializerBySimple):
             'track_score',
             'on_stage',
             'comment',
-            'created_at'
+            'created_at',
+            'is_public',
+            'is_distribute'
         )
 
         read_only_fields = (
