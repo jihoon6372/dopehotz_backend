@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
 from accounts.forms import ProfileForm
+from .decorators import connect_required
+
 
 import requests
 import json
@@ -11,19 +13,22 @@ def index(request):
     return render(request, 'tower/home.html', {})
 
 @login_required
+@connect_required
 def mytracks(request):
     return render(request, 'tower/mytracks.html', {})
 
 
 @login_required
+@connect_required
 def post(request):
     return render(request, 'tower/post.html', {})
 
 
 @login_required
+@connect_required
 def profile(request):
     if request.method == "POST":
-        form = ProfileForm(request.POST)        
+        form = ProfileForm(request.POST)
 
         if form.is_valid():
             profile = request.user.profile
@@ -41,14 +46,18 @@ def profile(request):
     return render(request, 'tower/profile.html', {'form': form})
 
 
+
 @login_required
+@connect_required
 def dashboard(request):
     if 0 is request.user.profile.soundcloud_id:
         return redirect('//auth.dopehotz.com/connect/')
     
     return render(request, 'tower/dashboard.html', {})
 
+
 @login_required
+@connect_required
 def post_select(request):
     datas = requests.get('http://api.soundcloud.com/users/'+str(request.user.profile.soundcloud_id)+'/tracks/?client_id='+settings.SOCIAL_AUTH_SOUNDCLOUD_KEY)
     post_list = []
@@ -59,6 +68,7 @@ def post_select(request):
     return render(request, 'tower/select.html', {'post_list': post_list})
 
 @login_required
+@connect_required
 def post_new(request, track_id):
     data = requests.get('http://api.soundcloud.com/tracks/'+str(track_id)+'/?client_id='+settings.SOCIAL_AUTH_SOUNDCLOUD_KEY)
 
