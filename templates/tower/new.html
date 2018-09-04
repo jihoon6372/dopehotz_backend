@@ -14,62 +14,64 @@
     <div class="content">
         
         <div class="innercontent_layout_l">
-            <div class="content_title_wrap">
-                <h3>TRACK INFO</h3>
-            </div>
-            <div class="content_tile">
+            <form name="track_form">
+                <div class="content_title_wrap">
+                    <h3>TRACK INFO</h3>
+                </div>
+                <div class="content_tile">
+                        <div class="tile_upper_title">
+                            <h4>트랙소개(필수)</h4>
+                        </div>
+                    <div class="input_form">
+                        <label for="trackdec">트랙에 대한 사연, 컨셉, 설명 등을 입력해 주세요.</label>
+                        <textarea id="trackdec" name="tape_info" v-model="tape_info" maxlength="600" placeholder="트랙에 대한 사연, 컨셉, 설명 등을 입력해 주세요."></textarea>
+                    </div>
+                </div>
+                <div class="content_tile">
                     <div class="tile_upper_title">
-                        <h4>트랙소개(필수)</h4>
+                        <h4>가사입력(선택)</h4>
                     </div>
-                <div class="input_form">
-                    <label for="trackdec">트랙에 대한 사연, 컨셉, 설명 등을 입력해 주세요.</label>
-                    <textarea id="trackdec" name="trackdec" maxlength="600" placeholder="트랙에 대한 사연, 컨셉, 설명 등을 입력해 주세요."></textarea>
-                </div>
-            </div>
-            <div class="content_tile">
-                <div class="tile_upper_title">
-                    <h4>가사입력(선택)</h4>
-                </div>
-                <div class="input_form">
-                    <label for="lyrics">가사가 있는 트랙일 경우 입력해주세요.</label>
-                    <textarea id="lyrics" name="lyrics" maxlength="1200" placeholder="이 곡의 가사를 적어주세요."></textarea>
-                </div>
-            </div>
-            <div class="content_tile">
-                <div class="tile_upper_title">
-                    <h4>태그입력(선택)</h4>
-                </div>
-                <div class="input_form">
-                    <div class="tag_wrap">
-                        <label for="tracktag">태그를 정확하게 입력할 수록 많은 반응을 이끌어낼 수 있습니다.</label>
-                        <input id="tracktag" type="text" class="tagged form_control" name="tag_1" data-removeBtn="true" placeholder="태그를 입력해주세요. / 엔터로 구분">
+                    <div class="input_form">
+                        <label for="lyrics">가사가 있는 트랙일 경우 입력해주세요.</label>
+                        <textarea id="lyrics" name="lyrics" v-model="lyrics" maxlength="1200" placeholder="이 곡의 가사를 적어주세요."></textarea>
                     </div>
                 </div>
-            </div>
-            <div class="content_tile">
+                <div class="content_tile">
+                    <div class="tile_upper_title">
+                        <h4>태그입력(선택)</h4>
+                    </div>
+                    <div class="input_form">
+                        <div class="tag_wrap">
+                            <label for="tracktag">태그를 정확하게 입력할 수록 많은 반응을 이끌어낼 수 있습니다.</label>
+                            <input id="tracktag" type="text" class="tagged form_control" name="tag" data-removeBtn="true" placeholder="태그를 입력해주세요. / 엔터로 구분">
+                        </div>
+                    </div>
+                </div>
+                <div class="content_tile">
                     <div class="tile_upper_title">
                         <h4>공개 범위 설정</h4>
                     </div>
                     <div class="input_form">
                         <label for="public">상업적 사용 가능 여부를 설정해 주세요.</label>
-                        <select name="public" id="public">
-                            <option>라이센스 공개 범위</option>
-                            <option value="close">상업적 사용 불가</option>
-                            <option value="public">상업적 사용 허용</option>
+                        <select name="public" id="public" v-model="public">
+                            <option value="">라이센스 공개 범위</option>
+                            <option value="0">상업적 사용 불가</option>
+                            <option value="1">상업적 사용 허용</option>
                         </select>
                     </div>
                     <div class="input_form">
                         <label for="distribute">수정 및 배포 가능 여부를 설정해 주세요.</label>
-                        <select name="distribute" id="distribute">
-                            <option>라이센스 공개 범위</option>
-                            <option value="close">수정 및 배포 불가</option>
-                            <option value="distribute">수정 및 배포 허용</option>
+                        <select name="distribute" id="distribute" v-model="distribute">
+                            <option value="">라이센스 공개 범위</option>
+                            <option value="0">수정 및 배포 불가</option>
+                            <option value="1">수정 및 배포 허용</option>
                         </select>
                     </div>
                 </div>
+            </form>
             <div class="track_submit_wrap">
-                <a class="track_submit" href="#">트랙 다시 선택</a>
-                <button class="track_submit">트랙 공개하기</button>
+                <a class="track_submit" v-on:click="track_select">트랙 다시 선택</a>
+                <button class="track_submit" v-on:click="track_submit">트랙 공개하기</button>
             </div>
         </div>
         <div class="innercontent_layout_r">
@@ -99,19 +101,77 @@
         </div>
     </div>
 </div>
-
 <script>
     var vm = new Vue({
         delimiters: ['##', '##'],
         el: "#app1",
         data: {
-            track_image: 'url({{ track_image }})',
             style1Object: {
                 'background-image': 'url({{ track_image|change_picture }})'
-            }
+            },
+            tape_info: '',
+            lyrics: '',
+            public: '',
+            distribute: ''
         },
         methods: {
+            track_submit: function(){
+                var self = this;
+                var tape_info_trim = self.trim(self.tape_info);
 
+                if(!tape_info_trim){
+                    alert('트랙 소개를 입력 해주세요.')
+                    return false;
+                }
+               
+                if (!self.public){
+                    alert('상업적 사용 가능 여부를 설정해 주세요.');
+                    return false;
+                }
+                
+                if(!self.distribute){
+                    alert('수정 및 배포 가능 여부를 설정해 주세요.');
+                    return false;
+                }
+               
+                axios({
+                    method: 'post',
+                    url: '//api.dopehotz.com/v1/tracks/',
+                    headers: {
+                        'Authorization': 'JWT '+j_token
+                    },
+                    data: {
+                        track_type: 'soundcloud',
+                        track_id: '{{ track_data.id }}',
+                        title: '{{ track_data.title }}',
+                        tape_info: self.tape_info,
+                        lyrics: self.lyrics,
+                        is_public: Number(self.public),
+                        is_distribute: Number(self.distribute),
+                        tag: tagsArray[0].join(', ')
+                    }
+                })
+                .then(function (ee){
+                    alert('트랙이 등록 되었습니다');
+                    
+                })
+                .catch(error => {
+                    if(error.response.data){
+                        msg = error.response.data;
+                        for(key in error.response.data){
+                            alert(msg[key][0]);
+                        }
+                    }
+                    
+                });                
+            },
+            track_select: function(){
+                location.href = '../../select/';
+            },
+
+            trim: function(stringToTrim){
+                return stringToTrim.replace(/^\s+|\s+$/g,"");            
+            }
         },
         mounted: function() {
         },
