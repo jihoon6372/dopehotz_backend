@@ -14,7 +14,7 @@ class MyAccountAdapter(DefaultAccountAdapter):
 
 class User(get_user_model()):
     User = get_user_model()
-    objects = User.objects.prefetch_related('profile')
+    objects = User.objects.prefetch_related('profile', 'soundcloudinfo')
 
 
 class Profile(models.Model):
@@ -30,12 +30,21 @@ class Profile(models.Model):
     crew = models.CharField('소속', max_length=100, blank=True)
     location = models.CharField('활동지역', max_length=100, blank=True)
 
+
     class Meta:
         verbose_name = 'profile'
         verbose_name_plural = '프로필'
 
     def __str__(self):
         return str(self.user)
+
+
+class SoundcloudInfo(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='soundcloudinfo')
+    token = models.CharField('사운드클라우드 토큰', max_length=40, blank=True)
+
+    class Meta:
+        verbose_name_plural = '사운드클라우드 계정 정보'
 
 
 from allauth.account.signals import user_signed_up
