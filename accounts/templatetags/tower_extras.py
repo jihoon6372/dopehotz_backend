@@ -1,7 +1,9 @@
 from django import template
+from django.conf import settings
 
 register = template.Library()
 
 @register.filter
 def change_picture(a):
-    return a.replace('large', 't500x500')
+    if a:
+        return a.replace('large', 't500x500')
