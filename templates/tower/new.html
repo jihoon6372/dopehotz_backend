@@ -136,9 +136,9 @@
                
                 axios({
                     method: 'post',
-                    url: '//api.dopehotz.com/v1/tracks/',
+                    url: '{{ API_URL }}/v1/tracks/',
                     headers: {
-                        'Authorization': 'JWT '+j_token
+                        'Authorization': 'JWT {{ JWT_TOKEN }}'
                     },
                     data: {
                         track_type: 'soundcloud',
@@ -148,7 +148,8 @@
                         lyrics: self.lyrics,
                         is_public: Number(self.public),
                         is_distribute: Number(self.distribute),
-                        tag: tagsArray[0].join(', ')
+                        tag: tagsArray[0].join(', '),
+                        image_url: '{{ track_image }}'
                     }
                 })
                 .then(function (ee){
@@ -157,12 +158,16 @@
                 })
                 .catch(error => {
                     if(error.response.data){
-                        msg = error.response.data;
+                        var msg = error.response.data;
+                        
                         for(key in error.response.data){
-                            alert(msg[key][0]);
+                            if(Array.isArray(msg[key])){
+                                alert(msg[key][0]);
+                            }else{
+                                alert(msg.detail);
+                            }   
                         }
                     }
-                    
                 });                
             },
             track_select: function(){
