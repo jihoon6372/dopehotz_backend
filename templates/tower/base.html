@@ -108,13 +108,13 @@
         <h2 class="menu_title">YOUR MUSIC</h2>
         <ul class="main_menu">
             <li>
-                <a href="/mytracks/">ALL TRACKS<span>12</span></a>
+                <a href="/mytracks/all/">ALL TRACKS<span>{{ TRACK_COUNT.all }}</span></a>
             </li>
             <li>
-                <a href="/mytracks/">ON STAGE<span>4</span></a>
+                <a href="/mytracks/on-stage/">ON STAGE<span>{{ TRACK_COUNT.on_stage }}</span></a>
             </li>
             <li>
-                <a href="/mytracks/">OPEN MIC<span>8</span></a>
+                <a href="/mytracks/open-mic/">OPEN MIC<span>{{ TRACK_COUNT.open_mic }}</span></a>
             </li>
         </ul>
         <h2 class="menu_title">SOCIAL</h2>
@@ -137,7 +137,6 @@
     <div class="container">
         {% block content %}{% endblock %}
     </div>
-    
   {% endblock %}
     <div id="footer">
         <p>copyright© DOPEHOTZ. all right reserved.</p>
@@ -151,9 +150,5 @@
     <script src="{% static 'js/preview.js'%}"></script>
     <script src="{% static 'js/common.js'%}"></script>
     <script src="{% static 'js/taginput.js'%}"></script>
-    <script>
-        var j_token = '{{ request.session.JWP_TOKEN }}';
-    </script>
 </body>
-
 </html>
