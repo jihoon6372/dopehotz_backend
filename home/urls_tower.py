@@ -5,7 +5,7 @@ from .views_tower import *
 
 urlpatterns = [
     path('', index, name='index'),
-    path('mytracks/', mytracks),
+    path('mytracks/<list_type>/', mytracks),
     path('post/', post),
     path('profile/', profile, name='profile'),
     path('dashboard/', dashboard),
