@@ -78,6 +78,18 @@ class TrackViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+    
+    @list_route()
+    def open_mic(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(on_stage=0)
+        
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     def get_serializer_class(self):
         # 버전 관리
@@ -109,10 +121,15 @@ class TrackViewSet(viewsets.ModelViewSet):
 
         # 기타 저장용 데이터 가져오기
         genre = sc_data.get('genre', '')
-        image_url = sc_data.get('artwork_url', '')
         download_url = sc_data.get('download_url', '')
         waveform_url = sc_data.get('waveform_url', '')
         duration = sc_data.get('duration', '')
+
+        if None is sc_data['artwork_url']:
+            image_url = sc_data['user']['avatar_url']
+        else:
+            image_url = sc_data['artwork_url']
+
 
         # 저장
         serializer = TrackSerializer(data=request.data)
@@ -129,6 +146,12 @@ class TrackViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
         # return serializer.data
+
+    @list_route()
+    def me(self, request, *args, **kwargs):
+        print(request.user)
+        return Response({'a':'aa'})
+
 
 
 # 트랙 댓글 버전관리 상속용 뷰셋
@@ -207,6 +230,47 @@ class TrackLikeListViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset()).filter(user=request.user)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+# 트랙 ME
+class TrackMeViewSet(viewsets.ModelViewSet):
+    serializer_class = TrackSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    queryset = Track.objects.prefetch_related(Prefetch('comment', queryset=TrackComment.objects.filter(parent=None)), 'comment__user__profile', 'comment__children__user__profile', 'like').select_related('user__profile').filter(is_deleted=False)
+    
+    def me(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(user=request.user)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    
+    def on_stage(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(user=request.user, on_stage=1)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    
+    def open_mic(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(user=request.user, on_stage=0)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
