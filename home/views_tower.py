@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
 from accounts.forms import ProfileForm
+from tracks.models import Track
 from .decorators import connect_required
 
 
@@ -14,8 +15,17 @@ def index(request):
 
 @login_required
 @connect_required
-def mytracks(request):
-    return render(request, 'tower/mytracks.html', {})
+def mytracks(request, list_type):
+    if 'all' in list_type:
+        track_list = Track.objects.filter(user=request.user)
+    elif 'on-stage' in list_type:
+        track_list = Track.objects.filter(user=request.user, on_stage=1)
+    elif 'open-mic' in list_type:
+        track_list = Track.objects.filter(user=request.user, on_stage=0)
+    else:
+        track_list = []
+
+    return render(request, 'tower/mytracks.html', {'track_list': track_list})
 
 
 @login_required
@@ -80,7 +90,13 @@ def post_new(request, track_id):
         else:
             track_image = track_data['artwork_url']
 
-    return render(request, 'tower/new.html', {'track_data': track_data, 'track_image': track_image, 'track_id': track_id})
+    template_data = {
+        'track_data': track_data,
+        'track_image': track_image,
+        'track_id': track_id
+    }
+
+    return render(request, 'tower/new.html', template_data)
 
 @login_required
 def connect(request):
