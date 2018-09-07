@@ -6,9 +6,14 @@ def settings_data(request):
     result_data = ''
 
     if request.host.urlconf == 'home.urls_tower':
-        all_count = Track.objects.filter(user=request.user).count()
-        on_stage_count = Track.objects.filter(user=request.user, on_stage=1).count()
-        open_mic_count = Track.objects.filter(user=request.user, on_stage=0).count()
+        if request.user.is_authenticated:
+            all_count = Track.objects.filter(user=request.user).count()
+            on_stage_count = Track.objects.filter(user=request.user, on_stage=1).count()
+            open_mic_count = Track.objects.filter(user=request.user, on_stage=0).count()
+        else:
+            all_count = 0
+            on_stage_count = 0
+            open_mic_count = 0
 
         result_data = {
             'API_URL': settings.API_URL,
