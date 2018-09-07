@@ -11,7 +11,13 @@
             <ul class="post_carousel">
                 {% for post in post_list %}
                 <li class="post_track_con" data-hash="{{ forloop.counter }}">
-                    <a href="#{{ forloop.counter }}"><img src="{{ post.user.avatar_url|change_picture }}"></a>
+                    <a href="#{{ forloop.counter }}">
+                        {% if post.artwork_url %}
+                        <img src="{{ post.artwork_url|change_picture }}">
+                        {% else %}
+                        <img src="{{ post.user.avatar_url|change_picture }}">
+                        {% endif %}
+                    </a>
                     <p>{{ post.title }}</p>
                     <a href="/post/new/{{ post.id }}" class="select_post_btn">선택 </a>
                 </li>
