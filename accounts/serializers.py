@@ -57,7 +57,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             'profile_picture',
             'greeting',
             'clips_greeting',
-            'likes_greeting'
+            'likes_greeting',
+            'nickname'
         )
 
         read_only_fields = (
@@ -68,7 +69,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(required=False)
-    track = UserTrackSerializer(many=True)
 
     class Meta:
         model = User
@@ -76,8 +76,7 @@ class UserSerializer(serializers.ModelSerializer):
             'id',
             'first_name',
             'last_name',
-            'profile',
-            'track'
+            'profile'
         )
 
     def update(self, instance, validated_data):
