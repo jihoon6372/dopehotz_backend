@@ -8,7 +8,8 @@ from providers.naver.views import NaverOAuth2Adapter
 from providers.kakao.views import KakaoOAuth2Adapter
 from allauth.socialaccount.models import SocialAccount, SocialToken
 from django.conf import settings
-from accounts.models import SoundcloudInfo
+from accounts.models import SoundcloudInfo, Profile
+
 
 import requests
 import json
@@ -53,6 +54,9 @@ def soundcloud_register(request, access_token):
     sc_data = requests.get(url)
     user_data = json.loads(sc_data.content)
 
+    if Profile.objects.filter(soundcloud_id=user_data['id']).exists():
+        return render(request, 'soundcloud_register.html', {'status': 'error'})
+
     try:
         soundcloud_info = request.user.soundcloudinfo
     except:
@@ -68,4 +72,4 @@ def soundcloud_register(request, access_token):
     profile.profile_picture = user_data['avatar_url']
     profile.save()
 
-    return render(request, 'soundcloud_register.html')
+    return render(request, 'soundcloud_register.html', {'status': 'success'})
