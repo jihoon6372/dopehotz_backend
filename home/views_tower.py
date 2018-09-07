@@ -65,13 +65,14 @@ def dashboard(request):
         return redirect('//auth.dopehotz.com/connect/')
 
     view_count_data, track_like_log_count, comment_count = 0, 0, 0
-
     view_count_data = Track.objects.filter(user=request.user).aggregate(Sum('view_count'))
+
+    view_count = 0 if None is view_count_data['view_count__sum'] else view_count_data['view_count__sum']
     track_like_log_count = TrackLikeLog.objects.filter(track__user=request.user).count()
     comment_count = TrackComment.objects.filter(track__user=request.user).count()
 
     template_data = {
-        'view_count': view_count_data['view_count__sum'],
+        'view_count': view_count,
         'track_like_log_count': track_like_log_count,
         'comment_count': comment_count
     }
