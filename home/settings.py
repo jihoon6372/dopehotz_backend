@@ -122,6 +122,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'home.context_processors.settings_data',
             ],
         },
     },
@@ -235,3 +236,4 @@ SESSION_COOKIE_DOMAIN = get_secret('SESSION_COOKIE_DOMAIN')
 
 #soundcloud info
 SOCIAL_AUTH_SOUNDCLOUD_KEY = get_secret('SOCIAL_AUTH_SOUNDCLOUD_KEY')
+API_URL = get_secret('API_URL')
