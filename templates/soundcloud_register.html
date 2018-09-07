@@ -2,7 +2,11 @@
     <body>
         <script>
             var redirect_url = '//tower.dopehotz.com/dashboard/';
+            {% if status == 'success' %}
             opener.location.href = redirect_url;
+            {% else %}
+            alert('이미 등록된 사운드클라우드 계정입니다.');
+            {% endif %}
             self.close();
         </script>
     </body>
