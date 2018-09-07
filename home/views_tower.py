@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.db.models import Sum
 
 from accounts.forms import ProfileForm
-from tracks.models import Track
+from tracks.models import Track, TrackLikeLog, TrackComment
 from .decorators import connect_required
 
 
@@ -62,8 +63,20 @@ def profile(request):
 def dashboard(request):
     if 0 is request.user.profile.soundcloud_id:
         return redirect('//auth.dopehotz.com/connect/')
+
+    view_count_data, track_like_log_count, comment_count = 0, 0, 0
+
+    view_count_data = Track.objects.filter(user=request.user).aggregate(Sum('view_count'))
+    track_like_log_count = TrackLikeLog.objects.filter(track__user=request.user).count()
+    comment_count = TrackComment.objects.filter(track__user=request.user).count()
+
+    template_data = {
+        'view_count': view_count_data['view_count__sum'],
+        'track_like_log_count': track_like_log_count,
+        'comment_count': comment_count
+    }
     
-    return render(request, 'tower/dashboard.html', {})
+    return render(request, 'tower/dashboard.html', template_data)
 
 
 @login_required
