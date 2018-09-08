@@ -71,10 +71,15 @@ def dashboard(request):
     track_like_log_count = TrackLikeLog.objects.filter(track__user=request.user).count()
     comment_count = TrackComment.objects.filter(track__user=request.user).count()
 
+    order_track_like_list = Track.objects.raw('SELECT *, (select count(*) from tracks_tracklikelog where track_id = a.`id`) as like_cou from tracks_track as a where user_id = '+str(request.user.id)+' order by like_cou desc')[:5]
+    order_track_view_list = Track.objects.filter(user=request.user).order_by('-view_count')[:5]
+
     template_data = {
         'view_count': view_count,
         'track_like_log_count': track_like_log_count,
-        'comment_count': comment_count
+        'comment_count': comment_count,
+        'order_track_like_list': order_track_like_list,
+        'order_track_view_list': order_track_view_list
     }
     
     return render(request, 'tower/dashboard.html', template_data)
