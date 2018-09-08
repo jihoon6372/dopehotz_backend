@@ -34,116 +34,47 @@
             <div class="content_tile">
                 <h3 class="tile_title">가장 많은 좋아요 수</h3>
                 <ul class="dashboard_track_list">
+                    {% for track in order_track_like_list %}
                     <li class="list_s_h">
-                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
+                        <img src="{{ track.image_url }}">
                         <a href="#트랙 디테일">
-                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
-                            <p class="subject_artist">OCT Official</p>
+                            <p class="subject_title">{{ track.title }}</p>
+                            <p class="subject_artist">{{ track.user.profile.nickname }}</p>
                         </a>
-                        <p class="data_field"><span class="like"></span>3215</p>
-                        <div class="play_trigger" data-tracknum="275435386"></div>
+                        <p class="data_field"><span class="like"></span>{{ track.like_cou }}</p>
+                        <div class="play_trigger" data-tracknum="{{ track.track_id }}"></div>
                     </li>
-                    <li class="list_s_h">
-                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
-                        <a href="#트랙 디테일">
-                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
-                            <p class="subject_artist">OCT Official</p>
-                        </a>
-                        <p class="data_field"><span class="like"></span>3215</p>
-                        <div class="play_trigger" data-tracknum="275435386"></div>
-                    </li>
-                    <li class="list_s_h">
-                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
-                        <a href="#트랙 디테일">
-                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
-                            <p class="subject_artist">OCT Official</p>
-                        </a>
-                        <p class="data_field"><span class="like"></span>3215</p>
-                        <div class="play_trigger" data-tracknum="275435386"></div>
-                    </li>
-                    <li class="list_s_h">
-                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
-                        <a href="#트랙 디테일">
-                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
-                            <p class="subject_artist">OCT Official</p>
-                        </a>
-                        <p class="data_field"><span class="like"></span>3215</p>
-                        <div class="play_trigger" data-tracknum="275435386"></div>
-                    </li>
-                    <li class="list_s_h">
-                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
-                        <a href="#트랙 디테일">
-                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
-                            <p class="subject_artist">OCT Official</p>
-                        </a>
-                        <p class="data_field"><span class="like"></span>3215</p>
-                        <div class="play_trigger" data-tracknum="275435386"></div>
-                    </li>
+                    {% empty %}
+                    <ul class="dashboard_track_list">
+                        <li class="list_s_h">
+                            <strong>아직 등록한 트랙이 없습니다.</strong>
+                        </li>
+                    </ul>
+                    {% endfor %}
                 </ul>
-                <!-- 틀랙이 없을 경우 -->
-                <ul class="dashboard_track_list" style="display: none;">
-                    <li class="list_s_h">
-                        <strong>아직 등록한 트랙이 없습니다.</strong>
-                    </li>
-                </ul>
-                <!-- 틀랙이 없을 경우 -->
             </div>
             <div class="content_tile">
                     <h3 class="tile_title">가장 많은 재생수</h3>
                 <ul class="dashboard_track_list">
+
+                    {% for track in order_track_view_list %}
                     <li class="list_s_h">
-                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
+                        <img src="{{ track.image_url }}">
                         <a href="#트랙 디테일">
-                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
-                            <p class="subject_artist">OCT Official</p>
+                            <p class="subject_title">{{ track.title }}</p>
+                            <p class="subject_artist">{{ track.user.profile.nickname }}</p>
                         </a>
-                        <p class="data_field"><span class="played"></span>3215</p>
-                        <div class="play_trigger" data-tracknum="275435386"></div>
+                        <p class="data_field"><span class="played"></span>{{ track.view_count }}</p>
+                        <div class="play_trigger" data-tracknum="{{ track_track_id }}"></div>
                     </li>
-                    <li class="list_s_h">
-                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
-                        <a href="#트랙 디테일">
-                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
-                            <p class="subject_artist">OCT Official</p>
-                        </a>
-                        <p class="data_field"><span class="played"></span>3215</p>
-                        <div class="play_trigger" data-tracknum="275435386"></div>
-                    </li>
-                    <li class="list_s_h">
-                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
-                        <a href="#트랙 디테일">
-                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
-                            <p class="subject_artist">OCT Official</p>
-                        </a>
-                        <p class="data_field"><span class="played"></span>3215</p>
-                        <div class="play_trigger" data-tracknum="275435386"></div>
-                    </li>
-                    <li class="list_s_h">
-                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
-                        <a href="#트랙 디테일">
-                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
-                            <p class="subject_artist">OCT Official</p>
-                        </a>
-                        <p class="data_field"><span class="played"></span>3215</p>
-                        <div class="play_trigger" data-tracknum="275435386"></div>
-                    </li>
-                    <li class="list_s_h">
-                        <img src="https://i1.sndcdn.com/artworks-000173376949-k8x4ze-t500x500.jpg">
-                        <a href="#트랙 디테일">
-                            <p class="subject_title">Kamikaze (Feat. Wella Rhogus)</p>
-                            <p class="subject_artist">OCT Official</p>
-                        </a>
-                        <p class="data_field"><span class="played"></span>3215</p>
-                        <div class="play_trigger" data-tracknum="275435386"></div>
-                    </li>
+                    {% empty %}
+                    <ul class="dashboard_track_list">
+                        <li class="list_s_h">
+                            <strong>아직 등록한 트랙이 없습니다.</strong>
+                        </li>
+                    </ul>
+                    {% endfor %}
                 </ul>
-                <!-- 틀랙이 없을 경우 -->
-                <ul class="dashboard_track_list" style="display: none;">
-                    <li class="list_s_h">
-                        <strong>아직 등록한 트랙이 없습니다.</strong>
-                    </li>
-                </ul>
-                <!-- 틀랙이 없을 경우 -->
             </div>
         </div>
         <div class="innercontent_layout_r">
