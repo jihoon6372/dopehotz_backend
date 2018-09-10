@@ -37,6 +37,7 @@ class Track(models.Model):
     api = models.ForeignKey(TrackApiList, on_delete=models.CASCADE, related_name='api')
     is_public = models.BooleanField(default=False, verbose_name='상업적 공개여부')
     is_distribute = models.BooleanField(default=False, verbose_name='수정 및 배포여부')
+    like_count = models.IntegerField(default=0, verbose_name='좋아요 수')
 
     
 
