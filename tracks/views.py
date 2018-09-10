@@ -220,6 +220,7 @@ class TrackLikeViewSet(viewsets.ModelViewSet):
             like_log.delete()
 
         self.like_count = TrackLikeLog.objects.filter(track=track).count()
+        Track.objects.filter(track_id=self.kwargs['track']).update(like_count=self.like_count)
 
 
 # 트랙 좋아요 한 리스트 가져오기
