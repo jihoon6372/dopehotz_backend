@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import TrackViewSet, TrackCommentViewSet, TrackCommentDetailViewSet, TrackLikeViewSet, TrackLikeListViewSet, TrackMeViewSet
+from .views import TrackViewSet, TrackCommentViewSet, TrackCommentDetailViewSet, TrackCountViewSet, TrackLikeListViewSet, TrackMeViewSet
 
 app_name = 'track'
 
@@ -9,7 +9,9 @@ urlpatterns = [
     path('<int:track_id>/', TrackViewSet.as_view({'get':'retrieve', 'put':'update', 'delete':'destroy'})),
     path('<int:track>/comments/', TrackCommentViewSet.as_view({'get':'list', 'post': 'create'})),
     path('<int:track>/comments/<int:pk>/', TrackCommentDetailViewSet.as_view({'get':'retrieve', 'put':'update', 'delete':'destroy'})),
-    path('<int:track>/like/', TrackLikeViewSet.as_view({'post':'create'})),
+    path('<int:track>/like/', TrackCountViewSet.as_view({'post':'create'}), {'count_type': 'like'}),
+    path('<int:track>/play/', TrackCountViewSet.as_view({'post':'create'}), {'count_type': 'play'}),
+    path('<int:track>/view/', TrackCountViewSet.as_view({'post':'create'}), {'count_type': 'view'}),
     path('on-stage/', TrackViewSet.as_view({'get':'on_stage'})),
     path('open-mic/', TrackViewSet.as_view({'get':'open_mic'})),
     path('likes/list/', TrackLikeListViewSet.as_view({'get':'list'})),
