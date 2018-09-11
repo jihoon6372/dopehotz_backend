@@ -22,7 +22,7 @@ class TrackViewSet(viewsets.ModelViewSet):
     lookup_field = 'track_id'
     serializer_class = TrackSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
-    queryset = Track.objects.prefetch_related(Prefetch('comment', queryset=TrackComment.objects.filter(parent=None)), 'comment__user__profile', 'comment__children__user__profile', 'like').select_related('user__profile').filter(is_deleted=False)
+    queryset = Track.objects.prefetch_related(Prefetch('comment', queryset=TrackComment.objects.filter(parent=None)), 'comment__user__profile', 'comment__children__user__profile', 'tracks_tracklikelog_track').select_related('user__profile').filter(is_deleted=False)
 
     def create(self, request, *args, **kwargs):
         track_type = request.data.get('track_type', '')
@@ -245,7 +245,7 @@ class TrackLikeListViewSet(viewsets.ModelViewSet):
 class TrackMeViewSet(viewsets.ModelViewSet):
     serializer_class = TrackSerializer
     permission_classes = (permissions.IsAuthenticated, )
-    queryset = Track.objects.prefetch_related(Prefetch('comment', queryset=TrackComment.objects.filter(parent=None)), 'comment__user__profile', 'comment__children__user__profile', 'like').select_related('user__profile').filter(is_deleted=False)
+    queryset = Track.objects.prefetch_related(Prefetch('comment', queryset=TrackComment.objects.filter(parent=None)), 'comment__user__profile', 'comment__children__user__profile', 'tracks_tracklikelog_track').select_related('user__profile').filter(is_deleted=False)
     
     def me(self, request, *args, **kwargs):
         queryset = self.get_queryset().filter(user=request.user)
