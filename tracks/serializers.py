@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Track, TrackComment, TrackLikeLog
+from .models import Track, TrackComment, TrackLikeLog, TrackViewLog, TrackPlayLog
 from home.serializers import TimeSetSerializer
 from accounts.serializers import UserSerializer
 
@@ -138,6 +138,20 @@ class TrackSerializer(TrackSerializerBySimple):
 class TrackLikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = TrackLikeLog
+        fields = ('user',)
+        read_only_fields = ('user',)
+
+
+class TrackViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrackViewLog
+        fields = ('user',)
+        read_only_fields = ('user',)
+
+
+class TrackPlaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrackPlayLog
         fields = ('user',)
         read_only_fields = ('user',)
 
