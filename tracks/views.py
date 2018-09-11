@@ -239,7 +239,7 @@ class TrackCountViewSet(viewsets.ModelViewSet):
 
         log, is_create = queryset.get_or_create(user=self.request.user, track=track)
 
-        if is_create == False:
+        if is_create == False and 'like' is self.kwargs['count_type']:
             log.delete()
 
         self.count = queryset.filter(track=track).count()
