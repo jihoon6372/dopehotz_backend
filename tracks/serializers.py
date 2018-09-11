@@ -131,7 +131,7 @@ class TrackSerializer(TrackSerializerBySimple):
         )
 
     def get_like_count(self, obj):
-            return obj.like.count()
+            return obj.tracks_tracklikelog_track.count()
 
         
 
