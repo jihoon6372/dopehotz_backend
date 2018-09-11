@@ -5,10 +5,10 @@ from .views_tower import *
 
 urlpatterns = [
     path('', index, name='index'),
-    path('mytracks/<list_type>/', mytracks),
-    path('post/', post),
+    path('mytracks/<list_type>/', mytracks, name='mytrack'),
+    path('post/', post, name='post'),
     path('profile/', profile, name='profile'),
-    path('dashboard/', dashboard),
+    path('dashboard/', dashboard, name='dashboard'),
     path('post/select/', post_select, name='post_select'),
     path('post/new/<int:track_id>/', post_new),
 ]
