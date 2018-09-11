@@ -27,7 +27,10 @@ class Track(models.Model):
     download_url = models.CharField(max_length=255, blank=True, null=True, verbose_name='다운로드 URL')
     waveform_url = models.CharField(max_length=255, blank=True, null=True, verbose_name='Waveform URL')
     view_count = models.IntegerField(default=0, verbose_name='조회 수')
+    like_count = models.IntegerField(default=0, verbose_name='좋아요 수')
+    play_count = models.IntegerField(default=0, verbose_name='플레이 수')
     track_score = models.IntegerField(default=0, verbose_name='트랙 점수')
+    playlist_count = models.IntegerField(default=0, verbose_name='플레이리스트 수')
     on_stage = models.IntegerField(default=0, db_index=True, verbose_name='온스테이지')
     tag = TagField()
     is_deleted = models.BooleanField(default=False, db_index=True, verbose_name='삭제여부', help_text='트랙을 삭제하는 대신 이부분을 체크 하세요.')
@@ -37,7 +40,7 @@ class Track(models.Model):
     api = models.ForeignKey(TrackApiList, on_delete=models.CASCADE, related_name='api')
     is_public = models.BooleanField(default=False, verbose_name='상업적 공개여부')
     is_distribute = models.BooleanField(default=False, verbose_name='수정 및 배포여부')
-    like_count = models.IntegerField(default=0, verbose_name='좋아요 수')
+    
 
     
 
@@ -85,8 +88,26 @@ class TrackComment(models.Model):
         return self.content
 
 
-# 트랙 좋아요 로그 모델
-class TrackLikeLog(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='작성자', on_delete=models.CASCADE, related_name='track_like')
-    track = models.ForeignKey(Track, verbose_name='트랙', on_delete=models.CASCADE, related_name='like')
+# 트랙 로그 베이스
+class TrackLogBase(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='작성자', on_delete=models.CASCADE, related_name="%(app_label)s_%(class)s_user")
+    track = models.ForeignKey(Track, verbose_name='트랙', on_delete=models.CASCADE, related_name="%(app_label)s_%(class)s_track")
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        abstract = True
+
+
+# 트랙 좋아요 로그 모델
+class TrackLikeLog(TrackLogBase):
+    pass
+
+
+# 트랙 플레이 로그 모델
+class TrackPlayLog(TrackLogBase):
+    pass
+
+
+# 트랙 조회 로그 모델
+class TrackViewLog(TrackLogBase):
+    pass
