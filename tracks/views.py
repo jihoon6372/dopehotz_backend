@@ -6,8 +6,8 @@ from rest_framework.decorators import list_route
 
 from django.db.models import Prefetch
 
-from .serializers import TrackSerializer, CommentSerializer, CommentCreateSerializer, CommentSerializer_v2, TrackLikeSerializer, TrackLikeListSerializer
-from .models import Track, TrackComment, TrackLikeLog
+from .serializers import TrackSerializer, CommentSerializer, CommentCreateSerializer, CommentSerializer_v2, TrackLikeSerializer, TrackLikeListSerializer, TrackPlaySerializer, TrackViewSerializer
+from .models import Track, TrackComment, TrackLikeLog, TrackViewLog, TrackPlayLog
 from home.permissions import IsOwnerOrReadOnly
 from home.exceptions import InvalidAPIQuery
 
@@ -201,26 +201,51 @@ class TrackCommentDetailViewSet(TrackCommentVersioningViewSet):
 
 
 
-# 트랙 좋아요 뷰셋
-class TrackLikeViewSet(viewsets.ModelViewSet):
+# 트랙 좋아요, 조회, 플레이 뷰셋
+class TrackCountViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
 
     def create(self, request, *args, **kwargs):
-        serializer = TrackLikeSerializer(data=request.data)
+        if 'like' is kwargs['count_type']:
+            set_serializer = eval('TrackLikeSerializer')
+
+        elif 'play' is kwargs['count_type']:
+            set_serializer = eval('TrackPlaySerializer')
+
+        elif 'view' is kwargs['count_type']:
+            set_serializer = eval('TrackViewSerializer')
+
+        serializer = set_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
 
-        return Response({'count': self.like_count}, status=status.HTTP_201_CREATED)
+        return Response({'count': self.count}, status=status.HTTP_201_CREATED)
 
     def perform_create(self, serializer):
         track = get_object_or_404(Track, track_id=self.kwargs['track'])
-        like_log, is_create = TrackLikeLog.objects.get_or_create(user=self.request.user, track=track)
+
+        q = {}
+        if 'like' is self.kwargs['count_type']:
+            queryset = TrackLikeLog.objects
+            count_column_name = 'like_count'
+
+        elif 'play' is self.kwargs['count_type']:
+            queryset = TrackPlayLog.objects
+            count_column_name = 'play_count'
+
+        elif 'view' is self.kwargs['count_type']:
+            queryset = TrackViewLog.objects
+            count_column_name = 'view_count'
+
+        log, is_create = queryset.get_or_create(user=self.request.user, track=track)
 
         if is_create == False:
-            like_log.delete()
+            log.delete()
 
-        self.like_count = TrackLikeLog.objects.filter(track=track).count()
-        Track.objects.filter(track_id=self.kwargs['track']).update(like_count=self.like_count)
+        self.count = queryset.filter(track=track).count()
+        q[count_column_name] = self.count
+        
+        Track.objects.filter(track_id=self.kwargs['track']).update(**q)
 
 
 # 트랙 좋아요 한 리스트 가져오기
