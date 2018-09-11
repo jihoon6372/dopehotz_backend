@@ -99,28 +99,28 @@
     <div class="layout_menu">
         <ul class="main_menu">
             <li>
-                <a href="/dashboard/">DASHBOARD</a>
+                <a href="{% url 'dashboard' %}">DASHBOARD</a>
             </li>
             <li>
-                <a href="/post/">POST TRACK</a>
+                <a href="{% url 'post' %}">POST TRACK</a>
             </li>
         </ul>
         <h2 class="menu_title">YOUR MUSIC</h2>
         <ul class="main_menu">
             <li>
-                <a href="/mytracks/all/">ALL TRACKS<span>{{ TRACK_COUNT.all }}</span></a>
+                <a href="{% url 'mytrack' 'all' %}">ALL TRACKS<span>{{ TRACK_COUNT.all }}</span></a>
             </li>
             <li>
-                <a href="/mytracks/on-stage/">ON STAGE<span>{{ TRACK_COUNT.on_stage }}</span></a>
+                <a href="{% url 'mytrack' 'on-stage' %}">ON STAGE<span>{{ TRACK_COUNT.on_stage }}</span></a>
             </li>
             <li>
-                <a href="/mytracks/open-mic/">OPEN MIC<span>{{ TRACK_COUNT.open_mic }}</span></a>
+                <a href="{% url 'mytrack' 'open-mic' %}">OPEN MIC<span>{{ TRACK_COUNT.open_mic }}</span></a>
             </li>
         </ul>
         <h2 class="menu_title">SOCIAL</h2>
         <ul class="main_menu">
             <li>
-                <a href="/profile/">EDIT PROFILE</a>
+                <a href="{% url 'profile' %}">EDIT PROFILE</a>
             </li>
         </ul>
         <h2 class="menu_title">ARTIST</h2>
