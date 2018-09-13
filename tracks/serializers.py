@@ -92,7 +92,6 @@ class TrackSerializerBySimple(TimeSetSerializer):
 # 트랙 시리얼라이저
 class TrackSerializer(TrackSerializerBySimple):
     comment = CommentSerializer(read_only=True, many=True)
-    like_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Track
@@ -111,6 +110,7 @@ class TrackSerializer(TrackSerializerBySimple):
             'waveform_url',
             'view_count',
             'like_count',
+            'play_count',
             'track_score',
             'on_stage',
             'comment',
