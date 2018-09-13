@@ -4,7 +4,7 @@
 {% load tower_extras %}
 
 {% block content %}
-<div class="layout_body" id="app1">
+<div class="layout_body">
     <div class="content">
         <div class="post_carousel_wrap">
             <h2>공개할 트랙을 선택해 주세요.</h2>
@@ -19,7 +19,7 @@
                         {% endif %}
                     </a>
                     <p>{{ post.title }}</p>
-                    <a href="/post/new/{{ post.id }}" class="select_post_btn">선택 </a>
+                    <a href="{% url 'post_create' post.id %}" class="select_post_btn">선택 </a>
                 </li>
                 {% endfor %}               
             </ul>
@@ -28,19 +28,4 @@
         </div>
     </div>
 </div>
-
-<script>
-var vm1 = new Vue({
-    el: "#app1",
-    data: {
-        post_list: []
-    },
-    methods: {
-
-    },
-    mounted: function() {
-        
-    },
-})
-</script>
 {% endblock %}
