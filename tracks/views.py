@@ -67,10 +67,24 @@ class TrackViewSet(viewsets.ModelViewSet):
         instance.track_id = None
         instance.save()
 
-    @list_route()
-    def on_stage(self, request, *args, **kwargs):
-        queryset = self.get_queryset().filter(on_stage=1)
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.set_queryset_order_by(self.filter_queryset(self.get_queryset()))
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
         
+
+    @list_route()
+    def on_stage(self, request, *args, **kwargs):      
+        queryset = self.get_queryset().filter(on_stage=1)
+        queryset = self.set_queryset_order_by(queryset)
+
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
@@ -82,6 +96,7 @@ class TrackViewSet(viewsets.ModelViewSet):
     @list_route()
     def open_mic(self, request, *args, **kwargs):
         queryset = self.get_queryset().filter(on_stage=0)
+        queryset = self.set_queryset_order_by(queryset)
         
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -108,7 +123,6 @@ class TrackViewSet(viewsets.ModelViewSet):
             return Response({'track_id' : ['이 필드는 필수 항목입니다.']}, status=status.HTTP_400_BAD_REQUEST)   
         
         # 사운드클라우드 트랙 데이터 가져오기
-        # sc_data = requests.get('http://api.soundcloud.com/tracks/'+request.data['track_id']+'?client_id='+settings.SOCIAL_AUTH_SOUNDCLOUD_KEY).json()
         sc_data = soundcloud_track_data(request.data['track_id'])
 
         # 사운드클라우드의 게시물이 존재하는지 체크
@@ -151,6 +165,29 @@ class TrackViewSet(viewsets.ModelViewSet):
     def me(self, request, *args, **kwargs):
         print(request.user)
         return Response({'a':'aa'})
+
+    
+    def set_queryset_order_by(self, queryset):
+        order = self.request.GET.get('order', None)
+        order_type = self.request.GET.get('order_type', None)
+
+        if order_type is not None:
+            asc_or_desc = ''
+
+            if 'desc' in order:
+                asc_or_desc = '-'
+
+            if 'play' in order_type:
+                order_by = '{}play_count'.format(asc_or_desc)
+
+            if 'like' in order_type:
+                order_by = '{}like_count'.format(asc_or_desc)
+
+            queryset = queryset.order_by(order_by)
+        
+        return queryset
+
+
 
 
 
