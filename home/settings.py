@@ -30,8 +30,6 @@ def get_secret(setting, secret=secret):
         raise ImproperlyConfigured(msg)
 
 
-
-#SECRET_KEY = 'lrc-ek4#y0bxge^dj^8vrp0mb6^5m+!2koz$gj1=d#chb#e@52'
 SECRET_KEY = get_secret('SECRET_KEY')
 
 # Quick-start development settings - unsuitable for production
@@ -93,6 +91,7 @@ INSTALLED_APPS = [
     'tracks',
     'playlists',
     'blacklists',
+    'articles',
 ]
 
 MIDDLEWARE = [
