@@ -4,7 +4,7 @@
 {% load tower_extras %}
 
 {% block content %}
-<div class="layout_body">
+<div class="layout_body" id="app">
     <div class="sub_title" style="background-image: url(/static/img/sub_main/sub_main02.jpg)">
         <div class="title_area">
             <h2>YOUR MUSIC</h2>
@@ -52,4 +52,20 @@
         </ul>
     </div>
 </div>
+
+<script>
+var vm = new Vue({
+    delimiters: ['##', '##'],
+    el: "#app",
+    data: {
+
+    },
+    methods: {
+
+    },
+    mounted: function() {
+        
+    },
+})
+</script>
 {% endblock %}
