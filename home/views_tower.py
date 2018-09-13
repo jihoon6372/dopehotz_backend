@@ -30,7 +30,7 @@ def mytracks(request, list_type):
 
     if None is not order_type:
         if 'play' in order_type:
-            track_list = track_list.order_by('-view_count')
+            track_list = track_list.order_by('-play_count')
             
         elif 'like' in order_type:
             track_list = track_list.order_by('-like_count')
@@ -132,3 +132,9 @@ def connect(request):
         return redirect('//tower.dopehotz.com/dashboard/')
 
     return render(request, 'tower/connect.html', {})
+
+
+@login_required
+@connect_required
+def post_create_done(request):
+    return render(request, 'tower/done.html')
