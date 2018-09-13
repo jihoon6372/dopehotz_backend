@@ -10,7 +10,8 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('dashboard/', dashboard, name='dashboard'),
     path('post/select/', post_select, name='post_select'),
-    path('post/new/<int:track_id>/', post_new),
+    path('post/new/<int:track_id>/', post_new, name='post_create'),
+    path('post/new/done/', post_create_done, name='post_create_done'),
 ]
 
 if settings.DEBUG:
