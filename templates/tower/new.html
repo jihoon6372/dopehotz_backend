@@ -112,10 +112,13 @@
             tape_info: '',
             lyrics: '',
             public: '',
-            distribute: ''
+            distribute: '',
+            is_submit: false
         },
         methods: {
             track_submit: function(){
+                if(this.is_submit) return false;
+                
                 var self = this;
                 var tape_info_trim = self.trim(self.tape_info);
 
@@ -133,6 +136,8 @@
                     alert('수정 및 배포 가능 여부를 설정해 주세요.');
                     return false;
                 }
+
+                this.is_submit = true;
                
                 axios({
                     method: 'post',
@@ -153,8 +158,7 @@
                     }
                 })
                 .then(function (ee){
-                    alert('트랙이 등록 되었습니다');
-                    
+                    location.href = "{% url 'post_create_done' %}";
                 })
                 .catch(error => {
                     if(error.response.data){
@@ -168,10 +172,12 @@
                             }   
                         }
                     }
+
+                    this.is_submit = false;
                 });                
             },
             track_select: function(){
-                location.href = "{% url 'post_select'%}";
+                location.href = "{% url 'post_select' %}";
             },
 
             trim: function(stringToTrim){
