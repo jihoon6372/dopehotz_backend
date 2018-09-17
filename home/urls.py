@@ -24,7 +24,8 @@ urlpatterns = [
     path('v1/tracks/', include('tracks.urls', namespace='v1:track')),
     path('v1/accounts/', include('accounts.urls', namespace='v1:accounts')),
     path('v1/playlist/', include('playlists.urls', namespace='v1:playlist')),
-    path('v2/tracks/', include('tracks.urls', namespace='v2:track'))
+    path('v2/tracks/', include('tracks.urls', namespace='v2:track')),
+    path('discord/', include('discord_bot.urls')),
 ]
 
 if settings.DEBUG:
