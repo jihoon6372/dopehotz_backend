@@ -47,8 +47,7 @@ class TrackViewSet(viewsets.ModelViewSet):
         
 
     def update(self, request, *args, **kwargs):
-        post_id = request.data.get('track_id', '')
-        if post_id and kwargs['track_id'] != post_id:
+        if 'track_id' in request.data:
             raise InvalidAPIQuery('Track ID는 변경할 수 없습니다.')
 
         sc_data = soundcloud_track_data(str(kwargs['track_id']))
@@ -311,6 +310,8 @@ class TrackMeViewSet(viewsets.ModelViewSet):
     
     def me(self, request, *args, **kwargs):
         queryset = self.get_queryset().filter(user=request.user)
+        queryset = self.set_queryset_order_by(queryset)
+
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
@@ -322,6 +323,7 @@ class TrackMeViewSet(viewsets.ModelViewSet):
     
     def on_stage(self, request, *args, **kwargs):
         queryset = self.get_queryset().filter(user=request.user, on_stage=1)
+        queryset = self.set_queryset_order_by(queryset)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -334,6 +336,7 @@ class TrackMeViewSet(viewsets.ModelViewSet):
     
     def open_mic(self, request, *args, **kwargs):
         queryset = self.get_queryset().filter(user=request.user, on_stage=0)
+        queryset = self.set_queryset_order_by(queryset)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -342,3 +345,24 @@ class TrackMeViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+    
+    def set_queryset_order_by(self, queryset):
+        order = self.request.GET.get('order', None)
+        order_type = self.request.GET.get('order_type', None)
+
+        if order_type is not None:
+            asc_or_desc = ''
+
+            if 'desc' in order:
+                asc_or_desc = '-'
+
+            if 'play' in order_type:
+                order_by = '{}play_count'.format(asc_or_desc)
+
+            if 'like' in order_type:
+                order_by = '{}like_count'.format(asc_or_desc)
+
+            queryset = queryset.order_by(order_by)
+        
+        return queryset
