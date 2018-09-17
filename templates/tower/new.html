@@ -81,11 +81,11 @@
             <div class="track_item_preview">
                 <a class="opm_thumb" v-bind:style="style1Object">
                     <div class="opm_play rateit">
-                        <img class="play_btn_img play_trigger" src="/static/img/assets/play.png"  data-tracknum="304330766">
+                        <img class="play_btn_img play_trigger" src="/static/img/assets/play.png"  data-tracknum="{{ track_id }}">
                     </div>
                 </a>
                 <div class="opm_info">
-                    <div class="opm_profile_img" style="background-image: url({{ track_data.user.avatar_url }});"></div>
+                    <div class="opm_profile_img" style="background-image: url({{ track_image }});"></div>
                     <a>
                         <p>{{ track_data.user.username }}</p>
                     </a>
@@ -100,7 +100,10 @@
             </div>
         </div>
     </div>
+    <div style="color: white;">{{ track.tag }}</div>
 </div>
+
+
 <script>
     var vm = new Vue({
         delimiters: ['##', '##'],
@@ -109,8 +112,8 @@
             style1Object: {
                 'background-image': 'url({{ track_image|change_picture }})'
             },
-            tape_info: '',
-            lyrics: '',
+            tape_info: '{{ track.tape_info|none_is_blank }}',
+            lyrics: '{{ track.lyrics|none_is_blank }}',
             public: '',
             distribute: '',
             is_submit: false
@@ -123,7 +126,7 @@
                 var tape_info_trim = self.trim(self.tape_info);
 
                 if(!tape_info_trim){
-                    alert('트랙 소개를 입력 해주세요.')
+                    alert('트랙 소개를 입력 해주세요.');
                     return false;
                 }
                
@@ -138,26 +141,40 @@
                 }
 
                 this.is_submit = true;
-               
+
+                _data = {
+                    track_type: 'soundcloud',
+                    track_id: '{{ track_id }}',
+                    title: '{{ track_data.title }}',
+                    tape_info: self.tape_info,
+                    lyrics: self.lyrics,
+                    is_public: Number(self.public),
+                    is_distribute: Number(self.distribute),
+                    tag: tagsArray[0].join(', '),
+                    image_url: '{{ track_image }}'
+                }
+
+                if('{{ type }}' == 'create'){
+                    _method = 'post';
+                    _url = '{{ API_URL }}/v1/tracks/';
+                }else if('{{ type }}' == 'update'){
+                    _method = 'PUT';
+                    _url = '{{ API_URL }}/v1/tracks/{{ track.track_id }}/';
+                    delete _data.track_id;
+                }else{
+                    return false;
+                }
+
                 axios({
-                    method: 'post',
-                    url: '{{ API_URL }}/v1/tracks/',
+                    method: _method,
+                    url: _url,
                     headers: {
                         'Authorization': 'JWT {{ JWT_TOKEN }}'
                     },
-                    data: {
-                        track_type: 'soundcloud',
-                        track_id: '{{ track_data.id }}',
-                        title: '{{ track_data.title }}',
-                        tape_info: self.tape_info,
-                        lyrics: self.lyrics,
-                        is_public: Number(self.public),
-                        is_distribute: Number(self.distribute),
-                        tag: tagsArray[0].join(', '),
-                        image_url: '{{ track_image }}'
-                    }
+                    data: _data
                 })
                 .then(function (ee){
+                    this.is_submit = false;
                     location.href = "{% url 'post_create_done' %}";
                 })
                 .catch(error => {
@@ -185,7 +202,47 @@
             }
         },
         mounted: function() {
+            if('{{ track.is_public }}' == 'True'){
+                this.public = '1';
+            }else{
+                this.public = '0';
+            }
+
+            if('{{ track.is_distribute }}' == 'True') {
+                this.distribute = '1';
+            }else{
+                this.distribute = '0';
+            }           
         },
-    })
+    });
+
+    window.onload = function(){
+        tagsArray[0] = '{{ track.tag }}'.replace(/ /gi, '').split(',');
+        var tmp_tag_array = tagsArray[0].reverse();
+        for(tags in tmp_tag_array){
+            document.getElementsByClassName('tags_container')[0].prepend(create_tag_element(tmp_tag_array[tags]));
+        }
+
+        tagsArray[0] = tagsArray[0].reverse();
+    }
+
+    function create_tag_element(val){
+        if(val){
+            var m1 = document.createElement('div');
+            var sp1 = document.createElement('span');
+
+            sp1.setAttribute('class', 'remove-tag');
+            sp1.innerHTML = 'x';
+
+            m1.setAttribute('class', 'tag tag_padding_btn');
+            m1.setAttribute('data-tag', val);
+            m1.innerHTML = val;
+            m1.append(sp1);
+
+            return m1;
+        }else{
+            return '';
+        }
+    }
 </script>
 {% endblock %}
