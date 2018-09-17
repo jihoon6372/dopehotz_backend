@@ -87,52 +87,54 @@
             <div class="profile_img" style="background-image: url(https://i1.sndcdn.com/avatars-000411368991-erumc8-t200x200.jpg)"></div>
         </div> -->
     </div>
-    <div class="menu_btn_m">
-        <i></i><i></i><i></i>
-    </div>
-    <div id="header_m">
-        <div class="logo_area">
-            <a href="/"></a>
+    <div id="base_m_menu_app">
+        <div class="menu_btn_m" v-on:click="menu_toggle">
+            <i></i><i></i><i></i>
         </div>
-    </div>
-    <div class="page_cover" onclick="history.back();"></div>
-    <div class="layout_menu">
-        <ul class="main_menu">
-            <li>
-                <a href="{% url 'dashboard' %}">DASHBOARD</a>
-            </li>
-            <li>
-                <a href="{% url 'post' %}">POST TRACK</a>
-            </li>
-        </ul>
-        <h2 class="menu_title">YOUR MUSIC</h2>
-        <ul class="main_menu">
-            <li>
-                <a href="{% url 'mytrack' 'all' %}">ALL TRACKS<span>{{ TRACK_COUNT.all }}</span></a>
-            </li>
-            <li>
-                <a href="{% url 'mytrack' 'on-stage' %}">ON STAGE<span>{{ TRACK_COUNT.on_stage }}</span></a>
-            </li>
-            <li>
-                <a href="{% url 'mytrack' 'open-mic' %}">OPEN MIC<span>{{ TRACK_COUNT.open_mic }}</span></a>
-            </li>
-        </ul>
-        <h2 class="menu_title">SOCIAL</h2>
-        <ul class="main_menu">
-            <li>
-                <a href="{% url 'profile' %}">EDIT PROFILE</a>
-            </li>
-        </ul>
-        <h2 class="menu_title">ARTIST</h2>
-        <ul class="main_menu">
-            <li>
-                <a>{{ user.profile.nickname }}<span style="background-image: url({{ user.profile.profile_picture }})"></span></a>
-            </li>
-            
-            <li>
-                <a href="//auth.dopehotz.com/logout/">LOG OUT</a>
-            </li>
-        </ul>
+        <div id="header_m">
+            <div class="logo_area">
+                <a href="/"></a>
+            </div>
+        </div>
+        <div class="page_cover" v-on:click="menu_toggle"></div>
+        <div class="layout_menu">
+            <ul class="main_menu">
+                <li>
+                    <a href="{% url 'dashboard' %}">DASHBOARD</a>
+                </li>
+                <li>
+                    <a href="{% url 'post' %}">POST TRACK</a>
+                </li>
+            </ul>
+            <h2 class="menu_title">YOUR MUSIC</h2>
+            <ul class="main_menu">
+                <li>
+                    <a href="{% url 'mytrack' %}#/all">ALL TRACKS<span>{{ TRACK_COUNT.all }}</span></a>
+                </li>
+                <li>
+                    <a href="{% url 'mytrack' %}#/on-stage">ON STAGE<span>{{ TRACK_COUNT.on_stage }}</span></a>
+                </li>
+                <li>
+                    <a href="{% url 'mytrack' %}#/open-mic">OPEN MIC<span>{{ TRACK_COUNT.open_mic }}</span></a>
+                </li>
+            </ul>
+            <h2 class="menu_title">SOCIAL</h2>
+            <ul class="main_menu">
+                <li>
+                    <a href="{% url 'profile' %}">EDIT PROFILE</a>
+                </li>
+            </ul>
+            <h2 class="menu_title">ARTIST</h2>
+            <ul class="main_menu">
+                <li>
+                    <a>{{ user.profile.nickname }}<span style="background-image: url({{ user.profile.profile_picture }})"></span></a>
+                </li>
+                
+                <li>
+                    <a href="//auth.dopehotz.com/logout/">LOG OUT</a>
+                </li>
+            </ul>
+        </div>
     </div>
     <div class="container">
         {% block content %}{% endblock %}
@@ -148,7 +150,29 @@
     <script src="//w.soundcloud.com/player/api.js"></script>
     <script src="{% static 'js/sc_player.js'%}"></script>
     <script src="{% static 'js/preview.js'%}"></script>
-    <script src="{% static 'js/common.js'%}"></script>
+    <script src="{% static 'js/common.js'%}?v=2"></script>
     <script src="{% static 'js/taginput.js'%}"></script>
 </body>
+
+<script>
+var base_vm = new Vue({
+    el: "#base_m_menu_app",
+    methods: {
+        menu_toggle: function(){
+            if ($(".menu_btn_m").hasClass('open')){
+                $(".menu_btn_m,.layout_menu,body").removeClass("open");
+                $(".page_cover").fadeOut(200);
+                history.back();
+            }else {
+                $(".menu_btn_m,.layout_menu,body").addClass("open");
+                $(".page_cover").fadeIn(200);
+                history.pushState({}, "page 2", "#menu-open");
+                // window.location.hash = "#menu-open";
+            }
+        }
+    }
+});
+
+
+</script>
 </html>
