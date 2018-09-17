@@ -7,9 +7,9 @@ def settings_data(request):
 
     if request.host.urlconf == 'home.urls_tower':
         if request.user.is_authenticated:
-            all_count = Track.objects.filter(user=request.user).count()
-            on_stage_count = Track.objects.filter(user=request.user, on_stage=1).count()
-            open_mic_count = Track.objects.filter(user=request.user, on_stage=0).count()
+            all_count = Track.objects.filter(user=request.user, is_deleted=False).count()
+            on_stage_count = Track.objects.filter(user=request.user, is_deleted=False, on_stage=1).count()
+            open_mic_count = Track.objects.filter(user=request.user, is_deleted=False, on_stage=0).count()
         else:
             all_count = 0
             on_stage_count = 0
