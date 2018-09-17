@@ -61,3 +61,9 @@ class BlacklistPermission(permissions.BasePermission):
         ip_addr = request.META['REMOTE_ADDR']
         blacklisted = BlackList.objects.filter(ip_addr=ip_addr).exists()
         return not blacklisted
+
+
+# 모든 권한
+class IsAllAuthenticated(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return True
