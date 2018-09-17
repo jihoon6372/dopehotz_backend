@@ -4,68 +4,231 @@
 {% load tower_extras %}
 
 {% block content %}
-<div class="layout_body" id="app">
-    <div class="sub_title" style="background-image: url(/static/img/sub_main/sub_main02.jpg)">
-        <div class="title_area">
-            <h2>YOUR MUSIC</h2>
-            <h1>ALL TRACK<span>{{ track_list.count }}</span></h1>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<div class="layout_body" id="app">   
+    <router-view></router-view>
+</div>
+
+<template id="track-list-template">
+    <div>
+        <div class="sub_title" style="background-image: url(/static/img/sub_main/sub_main02.jpg)">
+            <div class="title_area">
+                <h2>YOUR MUSIC</h2>
+                <h1>${ page_name }<span>${ result_data.count }</span></h1>
+            </div>
         </div>
-    </div>
-    <div class="content">
-        <div class="track_filter_wrap">
-            <ul>
-                <li class="selected"><a href=".">RECENTLY POST</a></li>
-                <li><a href="?order=play">TOP PLAYED</a></li>
-                <li><a href="?order=like">TOP LIKED</a></li>
-            </ul>
-        </div>
-        <ul class="mytrack_list">
-            {% for track in track_list %}
-                <li class="mytrack_list_item">
-                    <div style="background-image: url({{ track.image_url|change_picture }})">
-                        <div class="track_tool_btn"></div>
-                        <ul class="track_tools">
-                            <li>
-                                <a href="#" class="item_edit_btn"></a>
-                            </li>
-                            <li>
-                                <a href="#" class="item_del_btn"></a>
-                            </li>
-                        </ul>
-                        <a class="play_trigger" data-tracknum="{{ track.track_id }}">
-                            <img src="/static/img/assets/play.png" />
-                        </a>
-                    </div>
-                    <a href="#해당 트랙 링크" target="_blank" class="track_title">
-                        <em>{{ track.title }}</em>
-                    </a>
-                </li>
-            {% empty %}
-            <ul class="mytrack_list_empty">
+
+        <div class="content">
+            <div class="track_filter_wrap">
+                <ul>
+                    <li class="selected">
+                        <router-link v-bind:to="'/'+$route.params.type">RECENTLY POST</router-link>
+                    </li>
+                    <li>
+                        <router-link v-bind:to="'/'+$route.params.type+'?order=desc&order_type=play'">TOP PLAYED</router-link>
+                    </li>
+                    <li>
+                        <router-link v-bind:to="'/'+$route.params.type+'?order=desc&order_type=like'">TOP LIKED</router-link>
+                    </li>
+                </ul>
+            </div>
+
+            <ul class="mytrack_list_empty" v-if="track_empty">
                 <li>
-                    <h2>아직 등록된 트랙이 없네요.
-                        <br>지금 바로 트랙을 등록해 보세요!</h2>
+                    <h2><h2>아직 등록된 트랙이 없네요.<br>지금 바로 트랙을 등록해 보세요!</h2>
                     <a href="{% url 'post_select' %}">트랙 등록하기</a>
                 </li>
             </ul>
-            {% endfor %}
-        </ul>
+
+            <ul class="mytrack_list" v-else>
+                <li class="mytrack_list_item" v-for="(track, index) in lists">
+                    <div v-bind:style="{'background-image': 'url('+change_picture(track.image_url)+')' }">
+                        <div class="track_tool_btn"></div>
+                        <ul class="track_tools">
+                            <li>
+                                <a class="item_edit_btn" v-on:click="move_update(track.track_id)"></a>
+                            </li>
+                            <li>
+                                <a class="item_del_btn" v-on:click="track_delete(index)"></a>
+                            </li>
+                        </ul>
+                        <a class="play_trigger" v-on:click="play(track.track_id)">
+                            <img src="/static/img/assets/play.png" />
+                        </a>
+                    </div>
+                    <a v-bind:href="'//dopehotz.com/track/'+track.track_id" target="_blank" class="track_title">
+                        <em>${ track.title }</em>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
     </div>
-</div>
+</template>
 
 <script>
-var vm = new Vue({
-    delimiters: ['##', '##'],
-    el: "#app",
-    data: {
+const base_header = {
+    "Authorization": "JWT {{ JWT_TOKEN }}"
+};
 
+const List = Vue.component('List', {
+    delimiters: ['${', '}'],
+    template: '#track-list-template',
+	data: function() {
+		return {
+			lists:[],
+            track_empty: false,
+            scroll_request: false,
+            next_url: '',
+            page_name: '',
+            result_data: ''
+		}
+	},
+	created:function() {
+        var self = this;
+        this.get_track_data();
+        window.addEventListener('scroll', function (event) {
+            self.handleScroll(this);
+        });
     },
-    methods: {
+    destroyed: function() {
+        window.removeEventListener('scroll', this.handleScroll);
+    },
 
-    },
-    mounted: function() {
+    methods:{
+        get_track_data: function(is_reset){
+            if(is_reset == 'reset') this.lists = [];
+            
+            if (this.$route.params.type == 'all'){
+                api_url = '{{ API_URL }}/v1/tracks/me/';
+                this.page_name = 'ALL TRACKS';
+            }
+
+            if (this.$route.params.type == 'on-stage'){
+                api_url = '{{ API_URL }}/v1/tracks/me/on-stage/';
+                this.page_name = 'ON STAGE';
+            }
+
+            if (this.$route.params.type == 'open-mic'){
+                api_url = '{{ API_URL }}/v1/tracks/me/open-mic/';
+                this.page_name = 'OPEN MIC';
+            } 
+
+            _params = {}
+
+            if(this.$route.query.order_type) _params.order_type = this.$route.query.order_type;
+            if(this.$route.query.order) _params.order = this.$route.query.order;
+            
+            var url = new URL(api_url), params = _params;
+            Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+            
+            if(this.scroll_request){
+                if(this.next_url){
+                    url = this.next_url;
+                }else{
+                    this.scroll_request = false;
+                    return false;
+                }
+            }
+
+            fetch(url, {
+                headers: base_header
+            })
+            .then(res => res.json())
+            .then(res => {
+                this.result_data = res;
+                this.lists = this.lists.concat(res.results);
+                if(res.next) {
+                    this.next_url = res.next;
+                }else{
+                    this.next_url = '';
+                }
+
+                if(this.lists.length <= 0) {
+                    this.track_empty = true;
+                }else{
+                    this.track_empty = false;
+                }
+
+                this.scroll_request = false;
+            });
+        },
+
+        track_delete: function(index){
+            if(confirm('해당 트랙을 삭제하시겠습니까?')){
+                axios({
+                    method: 'delete',
+                    url: '{{ API_URL }}/v1/tracks/'+this.lists[index].track_id+'/',
+                    headers: {
+                        'Authorization': 'JWT {{ JWT_TOKEN }}'
+                    }
+                })
+                .then(function (ee){
+                    
+                })
+                .catch(error => {
+                    if(error.response.data){
+                        var msg = error.response.data;
+                        for(key in error.response.data){
+                            if(Array.isArray(msg[key])){
+                                alert(msg[key][0]);
+                            }else{
+                                alert(msg.detail);
+                            }   
+                        }
+                    }
+                });
+
+                this.lists.splice(index, 1);
+            }
+        },
+
+        change_picture: function(a){
+            if(a) return a.replace('large', 't500x500');
+        },
         
+        play: function(track_id){
+            removePlayer();
+            renderPlayer(track_id);
+        },
+
+        handleScroll: function (self) {
+            if((self.scrollY+window.innerHeight)/document.body.clientHeight*100 > 98){
+                if(before_scrollY < self.scrollY && !this.scroll_request){
+                    this.scroll_request = true;
+                    this.get_track_data();
+                }
+            }
+            before_scrollY = self.scrollY;
+        },
+
+        move_update: function(track_id){
+            location.href = "/post/"+track_id+"/update/";
+        }
     },
-})
+    watch: {
+        '$route' (to, from) {
+            if(to.params.type != from.params.type) this.result_data.count = '';            
+            this.get_track_data('reset');
+        }
+    }
+});
+
+
+const router = new VueRouter({
+	routes:[
+		{
+            path:'/:type',
+            component: List,
+            name: 'List',
+		}
+	]
+});
+
+const app = new Vue({
+    delimiters: ['${', '}'],
+	el:'#app',
+    router
+});
 </script>
 {% endblock %}
