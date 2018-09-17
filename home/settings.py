@@ -92,6 +92,7 @@ INSTALLED_APPS = [
     'playlists',
     'blacklists',
     'articles',
+    'discord_bot',
 ]
 
 MIDDLEWARE = [
