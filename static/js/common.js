@@ -27,18 +27,16 @@ $(function () {
     });
 });
 
-$(".menu_btn_m").click(function () {
-    if ($(".menu_btn_m").hasClass('open')){
-        $(".menu_btn_m,.layout_menu,body").removeClass("open");
-        $(".page_cover").fadeOut(200);
-        history.back();
-    }else {
-        $(".menu_btn_m,.layout_menu,body").addClass("open");
-        $(".page_cover").fadeIn(200);
-        window.location.hash = "#menu-open";
-    }
-    
-});
+
+// $(".menu_btn_m").click(function () {
+//     if ($(".menu_btn_m").hasClass('open')){
+//         $(".menu_btn_m,.layout_menu,body").removeClass("open");
+//         $(".page_cover").fadeOut(200);
+//     }else {
+//         $(".menu_btn_m,.layout_menu,body").addClass("open");
+//         $(".page_cover").fadeIn(200);
+//     }
+// });
 
 window.onhashchange = function () {
     if (location.hash != "#menu-open") {
