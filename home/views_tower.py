@@ -40,6 +40,12 @@ def mytracks(request, list_type):
 
 @login_required
 @connect_required
+def mytracks2(request):
+    return render(request, 'tower/mytracks.html')
+
+
+@login_required
+@connect_required
 def post(request):
     return render(request, 'tower/post.html', {})
 
@@ -121,10 +127,25 @@ def post_new(request, track_id):
     template_data = {
         'track_data': track_data,
         'track_image': track_image,
-        'track_id': track_id
+        'track_id': track_id,
+        'type': 'create'
     }
 
     return render(request, 'tower/new.html', template_data)
+
+
+@login_required
+@connect_required
+def post_modify(request, track_id):
+    track = Track.objects.get(user=request.user, track_id=track_id)
+    template_data = {
+        'track': track,
+        'type': 'update',
+        'track_id': track_id,
+        'track_image': track.image_url
+    }
+    return render(request, 'tower/new.html', template_data)
+
 
 @login_required
 def connect(request):
