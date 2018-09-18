@@ -129,8 +129,8 @@ class TrackViewSet(viewsets.ModelViewSet):
             return Response({'message' : '사운드클라우드의 게시물을 찾을 수 없습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # 사운드클라우드의 트랙이 게시자의 트랙게시물인지 체크
-        # if sc_data['user']['id'] != request.user.profile.soundcloud_id:
-        #     return Response({'message' : '사운드클라우드의 본인 트랙 게시물만 등록 가능합니다.'}, status=status.HTTP_400_BAD_REQUEST)
+        if sc_data['user']['id'] != request.user.profile.soundcloud_id:
+            return Response({'message' : '사운드클라우드의 본인 트랙 게시물만 등록 가능합니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # 기타 저장용 데이터 가져오기
         genre = sc_data.get('genre', '')
