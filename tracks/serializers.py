@@ -79,6 +79,7 @@ class TrackSerializerBySimple(TimeSetSerializer):
             'title',
             'tag',
             'genre',
+            'duration',
             'image_url',
             'download_url',
             'waveform_url',
