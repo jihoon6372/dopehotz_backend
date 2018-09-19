@@ -186,6 +186,25 @@ class TrackViewSet(viewsets.ModelViewSet):
         
         return queryset
 
+    
+    @list_route()
+    def tag_search(self, request, *args, **kwargs):
+        tag = kwargs['tag'].replace(' ', '')
+
+        if 0 is len(tag):
+            raise InvalidAPIQuery('검색어를 올바르게 입력하세요.')
+        
+        queryset = self.get_queryset().filter(tag__contains=tag)
+        queryset = self.set_queryset_order_by(queryset)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 
 
