@@ -93,6 +93,7 @@ class TrackSerializerBySimple(TimeSetSerializer):
 # 트랙 시리얼라이저
 class TrackSerializer(TrackSerializerBySimple):
     comment = CommentSerializer(read_only=True, many=True)
+    is_like = serializers.SerializerMethodField() 
 
     class Meta:
         model = Track
@@ -117,7 +118,8 @@ class TrackSerializer(TrackSerializerBySimple):
             'comment',
             'created_at',
             'is_public',
-            'is_distribute'
+            'is_distribute',
+            'is_like'
         )
 
         read_only_fields = (
@@ -132,7 +134,10 @@ class TrackSerializer(TrackSerializerBySimple):
         )
 
     def get_like_count(self, obj):
-            return obj.tracks_tracklikelog_track.count()
+        return obj.tracks_tracklikelog_track.count()
+
+    def get_is_like(self, obj):
+        return TrackLikeLog.objects.filter(track=obj, user=self.context['request'].user).exists()
 
         
 
