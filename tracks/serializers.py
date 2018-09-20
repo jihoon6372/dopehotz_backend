@@ -137,7 +137,7 @@ class TrackSerializer(TrackSerializerBySimple):
         return obj.tracks_tracklikelog_track.count()
 
     def get_is_like(self, obj):
-        return TrackLikeLog.objects.filter(track=obj, user=self.context['request'].user).exists()
+        return TrackLikeLog.objects.filter(track=obj, user=self.context['request'].user).exists() if self.context['request'].user.is_authenticated else False
 
         
 
