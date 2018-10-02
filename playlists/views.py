@@ -46,7 +46,7 @@ class PlayListGroupViewSet(viewsets.ModelViewSet):
     
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = PlayListGroupDetailSerializer(instance)
+        serializer = PlayListGroupDetailSerializer(instance, context={'request': request})
         return Response(serializer.data)
 
 
