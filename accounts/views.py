@@ -5,7 +5,7 @@ from rest_framework.decorators import list_route
 from django.contrib.auth import get_user_model
 
 from .models import Profile
-from .serializers import UserSerializer, ProfileSerializer
+from .serializers import UserSerializer, ProfileSerializer, UserMeSerializer
 from home.permissions import IsOwnerOrReadOnly
 
 def login_cancelled(request):
@@ -14,10 +14,11 @@ def login_cancelled(request):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
+    serializer_class = UserMeSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
     User = get_user_model()
+    # queryset = User.objects.prefetch_related('profile').select_related('track').all()
     queryset = User.objects.prefetch_related('profile').all()
 
     def retrieve(self, request, *args, **kwargs):
