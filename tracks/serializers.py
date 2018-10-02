@@ -70,6 +70,7 @@ class CommentCreateSerializer(TimeSetSerializer):
 
 class TrackSerializerBySimple(TimeSetSerializer):
     user = UserSerializer(read_only=True)
+    is_like = serializers.SerializerMethodField() 
 
     class Meta:
         model = Track
@@ -85,15 +86,18 @@ class TrackSerializerBySimple(TimeSetSerializer):
             'waveform_url',
             'view_count',
             'track_score',
-            'created_at'
+            'created_at',
+            'is_like'
         )
+
+    def get_is_like(self, obj):
+        return TrackLikeLog.objects.filter(track=obj, user=self.context['request'].user).exists() if self.context['request'].user.is_authenticated else False
 
 
 
 # 트랙 시리얼라이저
 class TrackSerializer(TrackSerializerBySimple):
     comment = CommentSerializer(read_only=True, many=True)
-    is_like = serializers.SerializerMethodField() 
 
     class Meta:
         model = Track
@@ -134,7 +138,7 @@ class TrackSerializer(TrackSerializerBySimple):
         )
 
     def get_like_count(self, obj):
-        return obj.tracks_tracklikelog_track.count()
+        return obj.tracks_tracklikelog_track.count()    
 
     def get_is_like(self, obj):
         return TrackLikeLog.objects.filter(track=obj, user=self.context['request'].user).exists() if self.context['request'].user.is_authenticated else False
