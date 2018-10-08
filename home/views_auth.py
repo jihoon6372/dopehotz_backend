@@ -22,11 +22,15 @@ def index(request):
 
 
 class LogoutView(RedirectView):
-	url = '//auth.dopehotz.com'
+    def get(self, request, *args, **kwargs):
+        request.session['next'] = request.GET.get('next', None)
+        if request.session['next'] is not None:
+            self.url = '//auth.dopehotz.com?next={}'.format(request.session['next'])
+        else:
+            self.url = '//auth.dopehotz.com'
 
-	def get(self, request, *args, **kwargs):
-		auth_logout(request)
-		return super(LogoutView, self).get(request, *args, **kwargs)
+        auth_logout(request)
+        return super(LogoutView, self).get(request, *args, **kwargs)
 
 
 class FacebookLogin(SocialLoginView):
