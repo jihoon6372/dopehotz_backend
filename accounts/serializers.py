@@ -118,6 +118,7 @@ class UserSerializer(UserSerializerBase):
         )
 
     def update(self, instance, validated_data):
+        
         profile_data = validated_data.pop('profile', False)
         profile = instance.profile
 
@@ -139,6 +140,7 @@ class UserMeSerializer(UserSerializerBase):
     social_type = serializers.SerializerMethodField() 
     track_list_count = serializers.SerializerMethodField()
     user_track_info = serializers.SerializerMethodField()
+    profile = ProfileSerializer(required=False)
 
     class Meta:
         model = User
@@ -164,6 +166,10 @@ class UserMeSerializer(UserSerializerBase):
             profile.greeting = profile_data.get('greeting', profile.greeting)
             profile.clips_greeting = profile_data.get('clips_greeting', profile.clips_greeting)
             profile.likes_greeting = profile_data.get('likes_greeting', profile.likes_greeting)
+            profile.nickname = profile_data.get('nickname', profile.nickname)
+            profile.crew = profile_data.get('crew', profile.crew)
+            profile.location = profile_data.get('location', profile.location)
+
             profile.save()
 
         return instance
