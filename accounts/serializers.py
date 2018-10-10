@@ -63,12 +63,12 @@ class ProfileSerializer(serializers.ModelSerializer):
             'nickname',
             'soundcloud_id',
             'crew',
-            'location'
+            'location',
+            'profile_picture'
         )
 
         read_only_fields = (
             'soundcloud_url',
-            'profile_picture'
         )
 
 class SocialAccountSerializer(serializers.ModelSerializer):
@@ -163,14 +163,17 @@ class UserMeSerializer(UserSerializerBase):
         instance.save()
 
         if profile_data:
+            
             profile.greeting = profile_data.get('greeting', profile.greeting)
             profile.clips_greeting = profile_data.get('clips_greeting', profile.clips_greeting)
             profile.likes_greeting = profile_data.get('likes_greeting', profile.likes_greeting)
             profile.nickname = profile_data.get('nickname', profile.nickname)
             profile.crew = profile_data.get('crew', profile.crew)
             profile.location = profile_data.get('location', profile.location)
+            profile.profile_picture = profile_data.get('profile_picture', profile.profile_picture)
 
             profile.save()
+            
 
         return instance
 
