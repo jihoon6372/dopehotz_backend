@@ -16,12 +16,12 @@ class MyAccountAdapter(DefaultAccountAdapter):
             token = jwt_encode(request.user)
 
             if localhost.search(next_url):
-                path = 'http://localhost:8080/#/auth/{}'.format(token)
+                path = 'http://localhost:8080/auth/{}'.format(token)
             else:
                 try:
                     detail_url = get_tld(next_url, as_object=True)
                     if detail_url.subdomain in ['tower', 'local.tower']:
-                        path = '{}://{}.{}/#/auth/{}'.format(detail_url.parsed_url.scheme, detail_url.subdomain, detail_url.fld, token)
+                        path = '{}://{}.{}/auth/{}'.format(detail_url.parsed_url.scheme, detail_url.subdomain, detail_url.fld, token)
                     else:
                         path = next_url
                 except:
