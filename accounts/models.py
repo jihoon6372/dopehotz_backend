@@ -25,7 +25,7 @@ class Profile(models.Model):
     greeting = models.TextField('인사말', blank=True)
     likes_greeting = models.TextField('좋아요 인사말', blank=True)
     clips_greeting = models.TextField('구독 인사말', blank=True)
-    soundcloud_id = models.IntegerField(default=False, blank=True, verbose_name='사운드클라우드 아이디', db_index=True)
+    soundcloud_id = models.BigIntegerField(default=False, blank=True, verbose_name='사운드클라우드 아이디', db_index=True)
     mailing_agree = models.BooleanField('메일 수신여부', default=False, help_text='광고성 메일 수신 동의 여부')
     crew = models.CharField('소속', max_length=100, blank=True)
     location = models.CharField('활동지역', max_length=100, blank=True)
