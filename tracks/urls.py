@@ -20,4 +20,5 @@ urlpatterns = [
     path('me/on-stage/', TrackMeViewSet.as_view({'get':'on_stage'})),
     path('me/open-mic/', TrackMeViewSet.as_view({'get':'open_mic'})),
     path('search/tag/<tag>/', TrackViewSet.as_view({'get':'tag_search'})),
+    path('search/keyword/<keyword>/', TrackViewSet.as_view({'get': 'search'})),
 ]
