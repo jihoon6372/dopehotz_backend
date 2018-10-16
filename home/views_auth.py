@@ -74,6 +74,9 @@ def soundcloud_register(request, access_token):
     profile.soundcloud_id = user_data['id']
     profile.soundcloud_url = user_data['permalink_url']
     profile.profile_picture = user_data['avatar_url']
+    profile.crew = 'DOPEHOTZ CREW'
+    profile.location = user_data['locale']
+
     profile.save()
 
     return render(request, 'soundcloud_register.html', {'status': 'success'})
