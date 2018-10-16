@@ -4,7 +4,7 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import list_route
 
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Q
 
 from .serializers import TrackSerializer, CommentSerializer, CommentCreateSerializer, CommentSerializer_v2, TrackLikeSerializer, TrackLikeListSerializer, TrackPlaySerializer, TrackViewSerializer
 from .models import Track, TrackComment, TrackLikeLog, TrackViewLog, TrackPlayLog
@@ -195,6 +195,24 @@ class TrackViewSet(viewsets.ModelViewSet):
             raise InvalidAPIQuery('검색어를 올바르게 입력하세요.')
         
         queryset = self.get_queryset().filter(tag__contains=tag)
+        queryset = self.set_queryset_order_by(queryset)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @list_route()
+    def search(self, request, *args, **kwargs):
+        keyword = kwargs['keyword'].replace(' ', '')
+
+        if 0 is len(keyword):
+            raise InvalidAPIQuery('검색어를 올바르게 입력하세요.')
+
+        queryset = self.get_queryset().filter(Q(tag__contains=keyword) | Q(title__contains=keyword))
         queryset = self.set_queryset_order_by(queryset)
 
         page = self.paginate_queryset(queryset)
