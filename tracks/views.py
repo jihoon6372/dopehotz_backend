@@ -24,7 +24,7 @@ class TrackViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
     queryset = Track.objects.prefetch_related(Prefetch('comment', queryset=TrackComment.objects.filter(parent=None)), 'comment__user__profile', 'comment__children__user__profile', 'tracks_tracklikelog_track').select_related('user__profile').filter(is_deleted=False)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):        
         track_type = request.data.get('track_type', '')
         
         if not track_type:
@@ -41,8 +41,6 @@ class TrackViewSet(viewsets.ModelViewSet):
         else:
             raise InvalidAPIQuery('지원하지 않는 타입입니다.')
 
-        
-        # return Response(data)
         return data
         
 
@@ -120,6 +118,14 @@ class TrackViewSet(viewsets.ModelViewSet):
         # 트랙 입력 체크
         if 'track_id' not in request.data:
             return Response({'track_id' : ['이 필드는 필수 항목입니다.']}, status=status.HTTP_400_BAD_REQUEST)   
+
+        # 상업적 공개여부 체크
+        if 'distribute' not in request.data:
+            return Response({'distribute' : ['이 필드는 필수 항목입니다.']}, status=status.HTTP_400_BAD_REQUEST)   
+
+        # 수정 및 배포여부 체크
+        if 'public' not in request.data:
+            return Response({'public' : ['이 필드는 필수 항목입니다.']}, status=status.HTTP_400_BAD_REQUEST)   
         
         # 사운드클라우드 트랙 데이터 가져오기
         sc_data = soundcloud_track_data(request.data['track_id'])
@@ -137,6 +143,8 @@ class TrackViewSet(viewsets.ModelViewSet):
         download_url = sc_data.get('download_url', '')
         waveform_url = sc_data.get('waveform_url', '')
         duration = sc_data.get('duration', '')
+        is_distribute = request.data.get('distribute')
+        is_public = request.data.get('public')
 
         if None is sc_data['artwork_url']:
             image_url = sc_data['user']['avatar_url']
@@ -145,7 +153,7 @@ class TrackViewSet(viewsets.ModelViewSet):
 
 
         # 저장
-        serializer = TrackSerializer(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(
             user=request.user,
@@ -154,7 +162,9 @@ class TrackViewSet(viewsets.ModelViewSet):
             download_url = download_url,
             waveform_url = waveform_url,
             duration = duration,
-            api_id = 1
+            api_id = 1,
+            is_public = is_public,
+            is_distribute = is_distribute
         )
 
         return Response(serializer.data)
