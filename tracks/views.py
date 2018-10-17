@@ -14,7 +14,7 @@ from home.exceptions import InvalidAPIQuery
 import requests
 
 def soundcloud_track_data(track_id):
-    return requests.get('http://api.soundcloud.com/tracks/'+track_id+'?client_id='+settings.SOCIAL_AUTH_SOUNDCLOUD_KEY).json()
+    return requests.get('http://api.soundcloud.com/tracks/'+str(track_id)+'?client_id='+settings.SOCIAL_AUTH_SOUNDCLOUD_KEY).json()
 
 
 # 트랙 뷰셋
