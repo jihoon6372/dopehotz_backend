@@ -71,6 +71,7 @@ def soundcloud_register(request, access_token):
     soundcloud_info.save()
 
     profile = request.user.profile
+    profile.nickname = user_data['username']
     profile.soundcloud_id = user_data['id']
     profile.soundcloud_url = user_data['permalink_url']
     profile.profile_picture = user_data['avatar_url']
