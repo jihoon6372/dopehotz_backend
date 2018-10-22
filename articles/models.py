@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
+from datetime import datetime
 
 class Notice(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='article_notice')
@@ -14,6 +15,7 @@ class Notice(models.Model):
 
     class Meta:
         verbose_name_plural = '공지사항'
+        ordering = ['-created_at']
 
 
     def __str__(self):
@@ -21,13 +23,9 @@ class Notice(models.Model):
 
     
     def _get_unique_slug(self):
+        dt = datetime.now().strftime("%Y%m%d%H%M%S")
         slug = slugify(self.title, allow_unicode=True)
-        unique_slug = slug
-        num = 1
-
-        while Notice.objects.filter(slug=unique_slug).exists():
-            unique_slug = '{}-{}'.format(slug, num)
-            num += 1
+        unique_slug = '{}-{}'.format(slug, dt)
 
         return unique_slug
 
@@ -37,3 +35,18 @@ class Notice(models.Model):
             self.slug = self._get_unique_slug()
             
         super(Notice, self).save(*args, **kargs)
+
+
+# 유저, 내용 베이스
+class ReportBase(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='작성자', on_delete=models.CASCADE, related_name="%(app_label)s_%(class)s_user")
+    content = models.TextField(blank=True, null=True, verbose_name='내용')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        abstract = True
+
+
+# 신고하기 모델
+class Report(ReportBase):
+    pass
