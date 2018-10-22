@@ -40,7 +40,7 @@ class Notice(models.Model):
 # 유저, 내용 베이스
 class ReportBase(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='작성자', on_delete=models.CASCADE, related_name="%(app_label)s_%(class)s_user")
-    content = models.TextField(blank=True, null=True, verbose_name='내용')
+    content = models.TextField(verbose_name='내용')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
