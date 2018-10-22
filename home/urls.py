@@ -17,7 +17,7 @@ from django.urls import path, include
 from django.conf import settings
 from rest_framework_jwt.views import refresh_jwt_token
 
-from .views import UserViewSet, get_user
+from .views import UserViewSet, get_user2
 
 urlpatterns = [
     path('token/refresh/', refresh_jwt_token),
@@ -26,6 +26,9 @@ urlpatterns = [
     path('v1/playlist/', include('playlists.urls', namespace='v1:playlist')),
     path('v2/tracks/', include('tracks.urls', namespace='v2:track')),
     path('discord/', include('discord_bot.urls')),
+    path('notice/', include('articles.urls', namespace='article')),
+    path('report/', include('articles.urls_report', namespace='report'))
+    # path('test/', get_user2)
 ]
 
 if settings.DEBUG:
