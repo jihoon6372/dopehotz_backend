@@ -26,6 +26,7 @@ class ReportSerializer(TimeSetSerializer):
         fields = (
             'id',
             'user',
+            'report_type',
             'content',
             'created_at'
         )
