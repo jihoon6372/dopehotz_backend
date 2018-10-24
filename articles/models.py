@@ -37,10 +37,22 @@ class Notice(models.Model):
         super(Notice, self).save(*args, **kargs)
 
 
+# 신고하기 타입 모델
+class ReportType(models.Model):
+    name = models.CharField(verbose_name='구분', max_length=100)
+
+    class Meta:
+        verbose_name_plural = '신고하기/의견보내기 타입'
+
+    def __str__(self):
+        return self.name
+
+
 # 유저, 내용 베이스
 class ReportBase(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='작성자', on_delete=models.CASCADE, related_name="%(app_label)s_%(class)s_user")
     content = models.TextField(verbose_name='내용')
+    report_type = models.ForeignKey(ReportType, on_delete=models.CASCADE, related_name='report_type')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
