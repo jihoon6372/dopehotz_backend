@@ -38,7 +38,7 @@ def get_user(request):
     return render(request, 'test.html', {'tracks':tracks})
 
 def get_user2(request):
-    comments = TrackComment.objects.prefetch_related('children').filter(parent=None)
+    # comments = TrackComment.objects.prefetch_related('children').filter(parent=None)
     # user_list = Post.objects.select_related('user__profile').all()
 
-    return render(request, 'test.html', {'comments':comments})
+    return render(request, 'test.html', {})
